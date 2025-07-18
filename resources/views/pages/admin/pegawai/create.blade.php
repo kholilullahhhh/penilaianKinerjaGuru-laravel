@@ -61,8 +61,8 @@
                                         <div class="col-md-6">
                                             <!-- Employee Information -->
                                             <div class="form-group">
-                                                <label>NIP</label>
-                                                <input type="text" name="nip" class="form-control" value="{{ old('nip') }}">
+                                                <label>NUPTK</label>
+                                                <input type="text" name="nuptk" class="form-control" value="{{ old('nuptk') }}">
                                             </div>
                                             <div class="form-group">
                                                 <label>Password <span class="text-danger">*</span></label>

@@ -31,6 +31,7 @@ class AdminSeeder extends Seeder
                 'name' => 'Guru',
                 'username' => 'guru',
                 'password' => bcrypt('guru'),
+                'nuptk' => '1234567890',
                 'role' => 'user',
             ],
 

@@ -54,7 +54,7 @@
                                                 <th>#</th>
                                                 <th>Nama</th>
                                                 <th>Username</th>
-                                                <th>NIP</th>
+                                                <th>NUPTK</th>
                                                 <th>Role</th>
                                                 <th>Aksi</th>
                                             </tr>
