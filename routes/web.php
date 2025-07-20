@@ -165,7 +165,6 @@ Route::group(
                 Route::delete('/hapus/{id}', 'PaymentController@destroy')->name('payment.hapus');
                 Route::put('/konformasi/{id}', 'PaymentController@konfirmasi')->name('konfirmasi.pembayaran');
 
-
             });
 
 
@@ -189,6 +188,16 @@ Route::group(
                 Route::get('/edit/{id}', 'AgendaController@edit')->name('agenda.edit');
                 Route::put('/update', 'AgendaController@update')->name('agenda.update');
                 Route::post('/hapus/{id}', 'AgendaController@destroy')->name('agenda.hapus');
+            });
+            
+            // Absensi
+            Route::prefix('absensi')->group(function () {
+                Route::get('/', 'AbsensiController@index')->name('absensi.index');
+                Route::get('/create', 'AbsensiController@create')->name('absensi.create');
+                Route::post('/store', 'AbsensiController@store')->name('absensi.store');
+                Route::get('/edit/{id}', 'AbsensiController@edit')->name('absensi.edit');
+                Route::put('/update', 'AbsensiController@update')->name('absensi.update');
+                Route::post('/hapus/{id}', 'AbsensiController@destroy')->name('absensi.hapus');
             });
 
             // Tema
