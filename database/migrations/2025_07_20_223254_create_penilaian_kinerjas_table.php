@@ -4,19 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('absensis', function (Blueprint $table) {
+        Schema::create('penilaian_kinerjas', function (Blueprint $table) {
             $table->id();
-            $table->string('agenda_id');
             $table->string('user_id');
-            $table->enum('status', ['hadir', 'tidak hadir', 'izin', 'sakit', 'terlambat']); //status kehadiran
-            $table->string('keterangan')->nullable(); // Optional field for additional notes
+            $table->string('indicator_id');
+            $table->float('skor_akhir');
+            $table->enum('kategori', ['Sangat Baik', 'Baik', 'Cukur', 'Kurang']);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absensis');
+        Schema::dropIfExists('penilaian_kinerjas');
     }
 };

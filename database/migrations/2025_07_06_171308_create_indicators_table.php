@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('indicators', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('skor')->default(0); //Score Indikator, 0 sampai 100
             $table->string('description')->nullable();
             $table->timestamps();
         });
