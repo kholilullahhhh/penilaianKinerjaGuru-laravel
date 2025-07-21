@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penilaian_kinerja;
 use Illuminate\Http\Request;
-use App\Models\Indicator_levels;
 
-class IndicatorLevelsController extends Controller
+class PenilaianController extends Controller
 {
-    private $menu = 'indikator_level';
+    private $menu = 'penilaian_kinerja';
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $datas = Indicator_levels::get();
+        $datas = Penilaian_kinerja::get();
         $menu = $this->menu;
-        return view('pages.admin.indikator_level.index', compact('menu', 'datas'));
+        return view('pages.admin.penilaian_kinerja.index', compact('menu', 'datas'));
     }
 
     /**
@@ -25,7 +25,7 @@ class IndicatorLevelsController extends Controller
     public function create()
     {
         $menu = $this->menu;
-        return view('pages.admin.indikator_level.create', compact('menu'));
+        return view('pages.admin.penilaian_kinerja.create', compact('menu'));
     }
 
     /**
@@ -38,9 +38,9 @@ class IndicatorLevelsController extends Controller
         // dd($r);
 
         // Menyimpan data guru
-        Indicator_levels::create($r);
+        Penilaian_kinerja::create($r);
 
-        return redirect()->route('indikator_level.index')->with('message', 'Data guru berhasil ditambahkan.');
+        return redirect()->route('penilaian_kinerja.index')->with('message', 'Data guru berhasil ditambahkan.');
     }
 
 
@@ -49,10 +49,10 @@ class IndicatorLevelsController extends Controller
      */
     public function edit($id)
     {
-        $data = Indicator_levels::findOrFail($id);
+        $data = Penilaian_kinerja::findOrFail($id);
         $menu = $this->menu;
 
-        return view('pages.admin.indikator_level.edit', compact('data', 'menu'));
+        return view('pages.admin.penilaian_kinerja.edit', compact('data', 'menu'));
     }
 
     /**
@@ -61,12 +61,12 @@ class IndicatorLevelsController extends Controller
     public function update(Request $request)
     {
         $r = $request->all();
-        $data = Indicator_levels::find($r['id']);
+        $data = Penilaian_kinerja::find($r['id']);
 
         // dd($r);
         $data->update($r);
 
-        return redirect()->route('indikator_level.index')->with('message', 'Data guru berhasil diperbarui.');
+        return redirect()->route('penilaian_kinerja.index')->with('message', 'Data guru berhasil diperbarui.');
     }
 
 
@@ -75,10 +75,10 @@ class IndicatorLevelsController extends Controller
      */
     public function destroy($id)
     {
-        $data = Indicator_levels::find($id);
+        $data = Penilaian_kinerja::find($id);
         $data->delete();
 
-        return redirect()->route('indikator_level.index')->with('message', 'Data guru berhasil dihapus.');
+        return redirect()->route('penilaian_kinerja.index')->with('message', 'Data guru berhasil dihapus.');
     }
 
 }

@@ -148,13 +148,13 @@ Route::group(
             });
 
             // Indikator Level
-            Route::prefix('indikator_level')->group(function () {
-                Route::get('/', 'IndicatorLevelsController@index')->name('indikator_level.index');
-                Route::get('/create', 'IndicatorLevelsController@create')->name('indikator_level.create');
-                Route::post('/store', 'IndicatorLevelsController@store')->name('indikator_level.store');
-                Route::get('/edit/{id}', 'IndicatorLevelsController@edit')->name('indikator_level.edit');
-                Route::put('/update', 'IndicatorLevelsController@update')->name('indikator_level.update');
-                Route::delete('/hapus/{id}', 'IndicatorLevelsController@destroy')->name('indikator_level.hapus');
+            Route::prefix('penilaian_kinerja')->group(function () {
+                Route::get('/', 'PenilaianController@index')->name('penilaian_kinerja.index');
+                Route::get('/create', 'PenilaianController@create')->name('penilaian_kinerja.create');
+                Route::post('/store', 'PenilaianController@store')->name('penilaian_kinerja.store');
+                Route::get('/edit/{id}', 'PenilaianController@edit')->name('penilaian_kinerja.edit');
+                Route::put('/update', 'PenilaianController@update')->name('penilaian_kinerja.update');
+                Route::delete('/hapus/{id}', 'PenilaianController@destroy')->name('penilaian_kinerja.hapus');
             });
 
             // payment

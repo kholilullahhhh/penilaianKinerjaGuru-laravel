@@ -31,7 +31,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown {{ $menu == 'indikator' || 'indikator_level' ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ $menu == 'indikator' || 'penilaian_kinerja' ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-sitemap"></i>
                         <span>Data Indikator</span></a>
                     <ul class="dropdown-menu">
@@ -41,9 +41,9 @@
                                 Data Indikator
                             </a>
                         </li>
-                        <li class="{{ $menu == 'indikator_level' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('indikator_level.index') }}">
-                                Data Level Indikator
+                        <li class="{{ $menu == 'penilaian_kinerja' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('penilaian_kinerja.index') }}">
+                                Data Penilaian
                             </a>
                         </li>
 

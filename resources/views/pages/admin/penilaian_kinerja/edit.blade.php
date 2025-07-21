@@ -15,7 +15,7 @@
             <div class="section-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{ route('spp.update', $data->id) }}" method="POST">
+                        <form action="{{ route('penilaian_kinerja.update', $data->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <input required type="hidden" name="id" value="{{ $data->id }}" class="form-control">
@@ -57,7 +57,7 @@
 
                                 <div class="card-footer text-right">
                                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                    <a href="{{ route('spp.index') }}" class="btn btn-secondary">Kembali</a>
+                                    <a href="{{ route('penilaian_kinerja.index') }}" class="btn btn-secondary">Kembali</a>
                                 </div>
                             </div>
                         </form>

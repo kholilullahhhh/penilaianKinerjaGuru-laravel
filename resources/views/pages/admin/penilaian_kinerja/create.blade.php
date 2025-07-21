@@ -17,7 +17,7 @@
             <div class="section-body">
                 <div class="row">
                     <div class="col-md-12 col-lg-8 offset-lg-2">
-                        <form action="{{ route('spp.store') }}" method="POST">
+                        <form action="{{ route('penilaian_kinerja.store') }}" method="POST">
                             @csrf
                             <div class="card">
                                 <div class="card-header">
@@ -60,7 +60,7 @@
 
                                 <div class="card-footer text-right">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
-                                    <a href="{{ route('spp.index') }}" class="btn btn-warning">Kembali</a>
+                                    <a href="{{ route('penilaian_kinerja.index') }}" class="btn btn-warning">Kembali</a>
                                 </div>
                             </div>
                         </form>
