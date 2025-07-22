@@ -1,128 +1,96 @@
-@extends('layouts.app', ['title' => 'Data Tema'])
+@extends('layouts.app', ['title' => 'Tambah Absensi'])
 @section('content')
     @push('styles')
-        <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.css') }}">
         <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
         <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
-        <link rel="stylesheet" href="{{ asset('library/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
     @endpush
 
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Tambah Agenda Rapat</h1>
+                <h1>Tambah Data Absensi</h1>
             </div>
 
             <div class="section-body">
-
                 <div class="row">
-
                     <div class="col-md-12 col-lg-12">
-                        <form action="{{ route('agenda.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('absensi.store') }}" method="POST">
                             @csrf
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h4></h4>
+                                    <h4>Form Absensi</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Judul</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Agenda Rapat</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <input required type="text" name="judul" class="form-control">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Ruangan Agenda</label>
-                                        <div class="col-sm-6 col-md-4">
-                                            <input required type="text" value=""
-                                                class="form-control" name="lokasi_kegiatan">
-                                        </div>
-                                    </div>
-                                    {{-- <div class="form-group row mb-4">
-                                        <label
-                                            class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Kategori</label>
-                                        <div class="col-sm-12 col-md-7">
-                                            <select required name="kategori_id" class="form-control selectric">
-                                                <option>Tech</option>
-                                                <option>News</option>
-                                                <option>Political</option>
+                                            <select name="agenda_id" class="form-control select2" required>
+                                                <option value="">Pilih Agenda</option>
+                                                @foreach($agendas as $agenda)
+                                                    <option value="{{ $agenda->id }}">
+                                                        {{ $agenda->judul }} ({{ $agenda->tgl_kegiatan }})
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
-                                    </div> --}}
+                                    </div>
+
                                     <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Isi
-                                            Agenda</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Pegawai</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <textarea required name="deskripsi_kegiatan" class="summernote"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tanggal Agenda</label>
-                                        <div class="col-sm-6 col-md-4 mb-4">
-                                            <input required  type="date" value=""
-                                                class="form-control" name="tgl_kegiatan">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Jam Agenda</label>
-                                        <div class="col-sm-6 col-md-4 mb-4">
-                                            <input required  type="time" value=""
-                                                class="form-control" name="jam_mulai">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row form-group mb-4">
-                                    </div>
-                                    <div class="form-group row mb-4">
-
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status</label>
-
-                                        <div class="col-sm-6 col-md-4">
-                                            <select class="form-control selectric" name="status" required>
-                                                <option value="publish">Publish</option>
-                                                <option value="pending">Pending</option>
+                                            <select name="user_id" class="form-control select2">
+                                                <option value="">Pilih Pegawai (Opsional)</option>
+                                                @foreach($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-4">
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status Kehadiran</label>
+                                        <div class="col-sm-12 col-md-7">
+                                            <select name="status" class="form-control" required>
+                                                <option value="">Pilih Status</option>
+                                                <option value="hadir">Hadir</option>
+                                                <option value="tidak hadir">Tidak Hadir</option>
+                                                <option value="izin">Izin</option>
+                                                <option value="sakit">Sakit</option>
+                                                <option value="terlambat">Terlambat</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-4">
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Keterangan</label>
+                                        <div class="col-sm-12 col-md-7">
+                                            <textarea name="keterangan" class="form-control" placeholder="Tambahkan keterangan jika perlu"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                         <div class="col-sm-12 col-md-7">
-                                            <button class="btn btn-primary">Buat Agenda</button>
-                                            <a href="{{ route('agenda.index') }}" class="btn btn-warning">Kembali</a>
+                                            <button type="submit" class="btn btn-primary">Simpan Absensi</button>
+                                            <a href="{{ route('absensi.index') }}" class="btn btn-warning">Kembali</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </form>
                     </div>
-
                 </div>
-
-
-
             </div>
-    </div>
-    </section>
+        </section>
     </div>
 
     @push('scripts')
         <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
-        <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-        <script src="{{ asset('library/summernote/dist/summernote-bs4.js') }}"></script>
-        <script src="{{ asset('library/upload-preview/upload-preview.js') }}"></script>
-        <script src="{{ asset('js/page/features-post-create.js') }}"></script>
-        <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
-        <script src="{{ asset('js/page/features-post-create.js') }}"></script>
-
-        <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+            });
+        </script>
     @endpush
 @endsection

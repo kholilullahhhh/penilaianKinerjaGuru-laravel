@@ -1,14 +1,9 @@
-@extends('layouts.app', ['title' => 'Data Agenda'])
+@extends('layouts.app', ['title' => 'Data Absensi'])
 
 @section('content')
     @push('styles')
         <link rel="stylesheet" href="{{ asset('library/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('library/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}">
-        <style>
-            .table-internal {
-                display: none;
-            }
-        </style>
     @endpush
 
     <div class="main-content">
@@ -23,55 +18,60 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- Navigation Buttons -->
-
-                                <a href="{{ route('absensi.create') }}" class="btn btn-primary text-white my-3">+ Tambah
-                                    Absensi</a>
+                                <a href="{{ route('absensi.create') }}" class="btn btn-primary text-white my-3">
+                                    <i class="fas fa-plus"></i> Tambah Absensi
+                                </a>
 
                                 <!-- Tables Section -->
-                                <!-- PPNPN -->
-                                <div class="table-responsive ">
-                                    <!-- Table PPNPN -->
-                                    <table class="table table-striped " id="table-agenda">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="table-absensi">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th>Judul Agenda</th>
-                                                {{-- <th>Isi Agenda</th> --}}
-                                                <th>Ruangan</th>
-                                                <th>Tanggal Agenda</th>
-                                                <th>Jam Agenda</th>
-                                                <th>Status</th>
+                                                <th>Nama Agenda</th>
+                                                <th>Nama Pegawai</th>
+                                                <th>NUPTK</th>
+                                                <th>Status Kehadiran</th>
+                                                <th>Keterangan</th>
+                                                <th>Tanggal Absensi</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($datas as $i => $data)
-                                                <?php
-                                                setlocale(LC_ALL, 'IND');
-                                                
-                                                $tgl_kegiatan = strftime('%d %B', strtotime($data->tgl_kegiatan));
-                                                $tgl_selesai = strftime('%d %B %Y', strtotime($data->tgl_selesai));
-                                                ?>
                                                 <tr>
                                                     <td>{{ ++$i }}</td>
-                                                    <td>{{ $data->judul ?? '' }}</td>
-                                                    {{-- <td>{!! $data->isi ?? '' !!}</td> --}}
-                                                    <td>{{ $data->tempat_kegiatan }} </td>
-                                                    <td>{{ $data->tgl_kegiatan }} - {{ $data->tgl_selesai }} </td>
-                                                    <td>{{ $data->status }} </td>
+                                                    <td>{{ $data->agenda->judul ?? 'N/A' }}</td>
+                                                    <td>{{ $data->user->name ?? 'N/A' }}</td>
+                                                    <td>{{ $data->user->nuptk ?? 'N/A' }}</td>
                                                     <td>
-                                                        @if ($data->status == 'publish')
-                                                            <span class="badge badge-success">Publish</span>
-                                                        @else
-                                                            <span class="badge badge-warning">Belum Publish</span>
-                                                        @endif
-
+                                                        @switch($data->status)
+                                                            @case('hadir')
+                                                                <span class="badge badge-success">Hadir</span>
+                                                                @break
+                                                            @case('tidak hadir')
+                                                                <span class="badge badge-danger">Tidak Hadir</span>
+                                                                @break
+                                                            @case('izin')
+                                                                <span class="badge badge-warning">Izin</span>
+                                                                @break
+                                                            @case('sakit')
+                                                                <span class="badge badge-info">Sakit</span>
+                                                                @break
+                                                            @case('terlambat')
+                                                                <span class="badge badge-secondary">Terlambat</span>
+                                                                @break
+                                                            @default
+                                                                <span class="badge badge-light">Unknown</span>
+                                                        @endswitch
                                                     </td>
+                                                    <td>{{ $data->keterangan ?? '-' }}</td>
+                                                    <td>{{ $data->created_at->format('d F Y H:i') }}</td>
                                                     <td>
                                                         <a href="{{ route('absensi.edit', $data->id) }}"
                                                             class="btn btn-warning my-2"><i class="fas fa-edit"></i></a>
-                                                        <button onclick="deleteData({{ $data->id }}, 'absensi')"
-                                                            class="btn btn-danger">
+                                                        <button onclick="deleteData({{ $data->id }}, 'absensi')" 
+                                                                class="btn btn-danger btn-sm" title="Hapus">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </td>
@@ -80,7 +80,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -88,7 +87,6 @@
             </div>
         </section>
     </div>
-
 
     @push('scripts')
         <script src="{{ asset('library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
@@ -98,19 +96,17 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                // Existing DataTable initialization
-                var language = {
-                    "sSearch": "Pencarian Data Kegiatan RPPH : ",
-                };
-                var tableKegiatan = $('#table-agenda').DataTable({
+                $('#table-absensi').DataTable({
                     paging: true,
                     searching: true,
                     language: {
                         url: 'https://cdn.datatables.net/plug-ins/2.1.0/i18n/id.json',
                     },
+                    columnDefs: [
+                        { orderable: false, targets: [6] }, // Disable sorting for action column
+                        { searchable: false, targets: [0, 6] } // Disable searching for # and action columns
+                    ]
                 });
-
-
             });
         </script>
     @endpush
