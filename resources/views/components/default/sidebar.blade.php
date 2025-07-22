@@ -27,6 +27,11 @@
                                 Data Pegawai
                             </a>
                         </li>
+                        <li class="{{ $menu == 'agenda' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('agenda.index') }}">
+                                Data Adenda Rapat
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
@@ -50,9 +55,9 @@
                     </ul>
                 </li>
 
-                <li class="{{ $menu == 'agenda' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('agenda.index') }}">
-                        <i class="fas fa-wallet"></i> <span>Data Agenda</span>
+                <li class="{{ $menu == 'absensi' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('absensi.index') }}">
+                        <i class="fas fa-wallet"></i> <span>Data Absensi</span>
                     </a>
                 </li>
 

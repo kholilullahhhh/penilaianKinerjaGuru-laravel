@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
             $table->string('agenda_id');
-            $table->string('user_id');
+            $table->string('user_id')->nullable();
             $table->enum('status', ['hadir', 'tidak hadir', 'izin', 'sakit', 'terlambat']); //status kehadiran
             $table->string('keterangan')->nullable(); // Optional field for additional notes
             $table->timestamps();

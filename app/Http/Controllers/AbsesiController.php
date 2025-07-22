@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Absensi;
 
+
 class AbsesiController extends Controller
 {
     private $menu = 'absensi';

@@ -14,7 +14,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Agenda Rapat</h1>
+                <h1>Data Absensi Rapat</h1>
             </div>
 
             <div class="section-body">
@@ -24,8 +24,8 @@
                             <div class="card-body">
                                 <!-- Navigation Buttons -->
 
-                                <a href="{{ route('agenda.create') }}" class="btn btn-primary text-white my-3">+ Tambah
-                                    Agenda</a>
+                                <a href="{{ route('absensi.create') }}" class="btn btn-primary text-white my-3">+ Tambah
+                                    Absensi</a>
 
                                 <!-- Tables Section -->
                                 <!-- PPNPN -->
@@ -68,9 +68,9 @@
 
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('agenda.edit', $data->id) }}"
+                                                        <a href="{{ route('absensi.edit', $data->id) }}"
                                                             class="btn btn-warning my-2"><i class="fas fa-edit"></i></a>
-                                                        <button onclick="deleteData({{ $data->id }}, 'agenda')"
+                                                        <button onclick="deleteData({{ $data->id }}, 'absensi')"
                                                             class="btn btn-danger">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
