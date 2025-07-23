@@ -10,7 +10,7 @@ class Indicators extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'score', // Score Indikator, 0 sampai 100
+        'skor', // Score Indikator, 0 sampai 100
         'description',
     ];
 }

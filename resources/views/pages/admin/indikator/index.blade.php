@@ -9,7 +9,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Indikator</h1>
+                <h1>Data Indikator Kinerja</h1>
             </div>
 
             <div class="section-body">
@@ -17,46 +17,52 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="mb-0">Daftar Indikator</h4>
+                                <h4>Daftar Indikator</h4>
                                 <div class="card-header-action">
                                     <a href="{{ route('indikator.create') }}" class="btn btn-primary">
-                                        <i class="bi bi-plus-lg"></i> Tambah Kelas
+                                        <i class="fas fa-plus"></i> Tambah Indikator
                                     </a>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped" id="table-kelas">
+                                    <table class="table table-striped" id="table-indikator">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nama Kelas</th>
-                                                <th>Jurusan</th>
-                                                <th>Action</th>
+                                                <th>Nama Indikator</th>
+                                                <th>Skor</th>
+                                                <th>Deskripsi</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($datas as $index => $kelas)
+                                            @foreach ($datas as $index => $indicator)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $kelas->name }}</td>
-                                                    <td>{{ $kelas->jurusan }}</td>
+                                                    <td>{{ $indicator->name }}</td>
+                                                    <td>
+                                                        <span
+                                                            class="badge badge-{{ $indicator->skor >= 80 ? 'success' : ($indicator->skor >= 60 ? 'warning' : 'danger') }}">
+                                                            {{ $indicator->skor }}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ $indicator->description ?? '-' }}</td>
                                                     <td>
                                                         <div class="action-buttons">
-                                                            <a href="{{ route('indikator.edit', $kelas->id) }}"
-                                                                class="btn btn-warning btn-action">
+                                                            <a href="{{ route('indikator.edit', $indicator->id) }}"
+                                                                class="btn btn-warning btn-sm" title="Edit">
                                                                 <i class="fas fa-edit"></i> Edit
                                                             </a>
-                                                            <form action="{{ route('indikator.hapus', $kelas->id) }}" method="POST"
-                                                                class="d-inline delete-form">
+                                                            <form action="{{ route('indikator.hapus', $indicator->id) }}"
+                                                                method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="button"
-                                                                    class="btn btn-danger btn-action delete-btn">
+                                                                <button type="button" class="btn btn-danger btn-sm delete-btn"
+                                                                    title="Hapus">
                                                                     <i class="fas fa-trash"></i> Hapus
                                                                 </button>
                                                             </form>
-
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -73,17 +79,18 @@
     </div>
 
     @push('scripts')
-        <!-- SweetAlert2 from CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.18/dist/sweetalert2.all.min.js"></script>
-
-        <!-- Other scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ asset('library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('library/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('library/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
 
         <script>
             $(document).ready(function () {
-                $('#table-kelas').DataTable();
+                $('#table-indikator').DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/id.json'
+                    }
+                });
 
                 // SweetAlert for delete confirmation
                 $('.delete-btn').click(function (e) {
@@ -92,29 +99,28 @@
 
                     Swal.fire({
                         title: 'Apakah Anda yakin?',
-                        text: "Data kelas ini akan dihapus secara permanen!",
+                        text: "Indikator ini akan dihapus permanen!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Ya, Hapus!',
-                        cancelButtonText: 'Batal',
-                        reverseButtons: true
+                        cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit();  // Submit the form if confirmed
+                            form.submit();
                         }
                     });
                 });
 
                 // Show success message if exists
-                @if(session('message'))
+                @if(session('success'))
                     Swal.fire({
                         icon: 'success',
-                        title: 'Sukses!',
-                        text: '{{ session('message') }}',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
                         timer: 3000,
-                        showConfirmButton: true
+                        showConfirmButton: false
                     });
                 @endif
 
@@ -126,7 +132,7 @@
                         text: '{{ session('error') }}',
                     });
                 @endif
-                                                                });
+                    });
         </script>
     @endpush
 @endsection

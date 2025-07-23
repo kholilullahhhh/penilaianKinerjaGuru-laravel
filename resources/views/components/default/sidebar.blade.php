@@ -37,7 +37,7 @@
 
 
                 <li class="nav-item dropdown {{ $menu == 'indikator' || $menu == 'penilaian_kinerja' ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-sitemap"></i>
+                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-inbox"></i>
                         <span>Data Indikator</span></a>
                     <ul class="dropdown-menu">
 
