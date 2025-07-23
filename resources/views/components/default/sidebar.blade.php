@@ -17,11 +17,11 @@
             </li>
 
             @if (session('role') == 'admin')
-                <li class="nav-item dropdown {{ $menu == 'pegawai' ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ ($menu == 'pegawai' || $menu == 'agenda') ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-sitemap"></i>
-                        <span>Master Data</span></a>
+                        <span>Master Data</span>
+                    </a>
                     <ul class="dropdown-menu">
-
                         <li class="{{ $menu == 'pegawai' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('pegawai.index') }}">
                                 Data Pegawai
@@ -29,14 +29,14 @@
                         </li>
                         <li class="{{ $menu == 'agenda' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('agenda.index') }}">
-                                Data Adenda Rapat
+                                Data Agenda Rapat
                             </a>
                         </li>
-
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown {{ $menu == 'indikator' || 'penilaian_kinerja' ? 'active' : '' }}">
+
+                <li class="nav-item dropdown {{ $menu == 'indikator' || $menu == 'penilaian_kinerja' ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-sitemap"></i>
                         <span>Data Indikator</span></a>
                     <ul class="dropdown-menu">
