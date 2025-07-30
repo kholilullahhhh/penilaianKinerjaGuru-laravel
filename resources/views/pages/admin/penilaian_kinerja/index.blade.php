@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Data Indikator Level'])
+@extends('layouts.app', ['title' => 'Data Penilaian Kinerja'])
 
 @section('content')
     @push('styles')
@@ -16,44 +16,67 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
+                            <div class="card-header">
+                                <h4>Daftar Penilaian Kinerja</h4>
+                                <div class="card-header-action">
+                                    <a href="{{ route('penilaian_kinerja.create') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Tambah Penilaian
+                                    </a>
+                                </div>
+                            </div>
                             <div class="card-body">
-                                <a href="{{ route('penilaian_kinerja.create') }}" class="btn btn-primary my-4">
-                                    <i class="fas fa-plus"></i> Tambah Data Penilaian
-                                </a>
                                 <div class="table-responsive">
-                                    <table class="table table-striped" id="table-spp">
+                                    <table class="table table-striped" id="table-penilaian">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Tahun</th>
-                                                <th>Semester</th>
-                                                <th>Nominal</th>
-                                                <th>Action</th>
+                                                <th>Nama Pegawai</th>
+                                                <th>Indikator</th>
+                                                <th>Skor Akhir</th>
+                                                <th>Kategori</th>
+                                                <th>Tanggal Penilaian</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($datas as $index => $spp)
+                                            @foreach ($datas as $index => $penilaian)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $spp->year }}</td>
-                                                    <td>{{ ucfirst($spp->semester) }}</td>
-                                                    <td>Rp {{ number_format($spp->nominal, 0, ',', '.') }}</td>
+                                                    <td>{{ $penilaian->user->name ?? 'N/A' }}</td>
+                                                    <td>{{ $penilaian->indicator->name ?? 'N/A' }}</td>
+                                                    <td>{{ number_format($penilaian->skor_akhir, 2) }}</td>
+                                                    <td>
+                                                        @switch($penilaian->kategori)
+                                                            @case('Sangat Baik')
+                                                                <span class="badge badge-success">Sangat Baik</span>
+                                                                @break
+                                                            @case('Baik')
+                                                                <span class="badge badge-primary">Baik</span>
+                                                                @break
+                                                            @case('Cukup')
+                                                                <span class="badge badge-warning">Cukup</span>
+                                                                @break
+                                                            @case('Kurang')
+                                                                <span class="badge badge-danger">Kurang</span>
+                                                                @break
+                                                            @default
+                                                                <span class="badge badge-secondary">{{ $penilaian->kategori }}</span>
+                                                        @endswitch
+                                                    </td>
+                                                    <td>{{ $penilaian->created_at->format('d M Y') }}</td>
                                                     <td>
                                                         <div class="action-buttons">
-                                                            <a href="{{ route('penilaian_kinerja.edit', $spp->id) }}"
-                                                                class="btn btn-warning btn-action">
+                                                            <a href="{{ route('penilaian_kinerja.edit', $penilaian->id) }}" 
+                                                               class="btn btn-warning btn-sm" title="Edit">
                                                                 <i class="fas fa-edit"></i> Edit
                                                             </a>
-                                                            <form action="{{ route('penilaian_kinerja.hapus', $spp->id) }}" method="POST"
-                                                                class="d-inline delete-form">
+                                                            <form action="{{ route('penilaian_kinerja.hapus', $penilaian->id) }}" method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="button"
-                                                                    class="btn btn-danger btn-action delete-btn">
+                                                                <button type="button" class="btn btn-danger btn-sm delete-btn" title="Hapus">
                                                                     <i class="fas fa-trash"></i> Hapus
                                                                 </button>
                                                             </form>
-
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -70,17 +93,18 @@
     </div>
 
     @push('scripts')
-        <!-- SweetAlert2 from CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.18/dist/sweetalert2.all.min.js"></script>
-
-        <!-- Other scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ asset('library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('library/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('library/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
 
         <script>
             $(document).ready(function () {
-                $('#table-kelas').DataTable();
+                $('#table-penilaian').DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/id.json'
+                    }
+                });
 
                 // SweetAlert for delete confirmation
                 $('.delete-btn').click(function (e) {
@@ -89,29 +113,28 @@
 
                     Swal.fire({
                         title: 'Apakah Anda yakin?',
-                        text: "Data kelas ini akan dihapus secara permanen!",
+                        text: "Data penilaian ini akan dihapus permanen!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Ya, Hapus!',
-                        cancelButtonText: 'Batal',
-                        reverseButtons: true
+                        cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit();  // Submit the form if confirmed
+                            form.submit();
                         }
                     });
                 });
 
                 // Show success message if exists
-                @if(session('message'))
+                @if(session('success'))
                     Swal.fire({
                         icon: 'success',
-                        title: 'Sukses!',
-                        text: '{{ session('message') }}',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
                         timer: 3000,
-                        showConfirmButton: true
+                        showConfirmButton: false
                     });
                 @endif
 
@@ -123,7 +146,7 @@
                         text: '{{ session('error') }}',
                     });
                 @endif
-                                                                                        });
+            });
         </script>
     @endpush
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SPP Payment Dashboard'])
+@extends('layouts.app', ['title' => 'Dashboard Absensi'])
 
 @section('content')
     @push('styles')
@@ -63,19 +63,6 @@
                 height: 300px;
             }
 
-            .floating-card {
-                position: absolute;
-                right: 20px;
-                top: 20px;
-                z-index: 10;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(5px);
-                border-radius: 12px;
-                padding: 0.75rem 1.25rem;
-                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-                border: 1px solid rgba(0,0,0,0.05);
-            }
-
             .status-badge {
                 padding: 0.35rem 0.75rem;
                 border-radius: 50rem;
@@ -84,83 +71,69 @@
                 letter-spacing: 0.5px;
             }
 
-            .bg-paid {
+            .bg-hadir {
                 background-color: rgba(40, 167, 69, 0.1);
                 color: var(--success);
             }
 
-            .bg-pending {
-                background-color: rgba(255, 193, 7, 0.1);
-                color: var(--warning);
-            }
-
-            .bg-overdue {
+            .bg-tidak_hadir {
                 background-color: rgba(220, 53, 69, 0.1);
                 color: var(--danger);
             }
 
-            .recent-payments::-webkit-scrollbar {
+            .bg-izin {
+                background-color: rgba(23, 162, 184, 0.1);
+                color: var(--info);
+            }
+
+            .recent-attendance::-webkit-scrollbar {
                 width: 6px;
             }
 
-            .recent-payments::-webkit-scrollbar-track {
+            .recent-attendance::-webkit-scrollbar-track {
                 background: #f1f1f1;
                 border-radius: 10px;
             }
 
-            .recent-payments::-webkit-scrollbar-thumb {
+            .recent-attendance::-webkit-scrollbar-thumb {
                 background: #c1c1c1;
                 border-radius: 10px;
             }
 
-            .recent-payments::-webkit-scrollbar-thumb:hover {
+            .recent-attendance::-webkit-scrollbar-thumb:hover {
                 background: #a8a8a8;
             }
 
-            .progress-thin {
-                height: 8px;
-                border-radius: 4px;
-            }
-
-            .payment-item {
+            .attendance-item {
                 transition: all 0.3s ease;
                 border-left: 4px solid transparent;
             }
 
-            .payment-item:hover {
+            .attendance-item:hover {
                 transform: translateX(5px);
                 box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
             }
 
-            .payment-item.bg-paid {
+            .attendance-item.bg-hadir {
                 border-left-color: var(--success);
             }
 
-            .payment-item.bg-pending {
-                border-left-color: var(--warning);
+            .attendance-item.bg-tidak_hadir {
+                border-left-color: var(--danger);
             }
 
-            .payment-item.bg-overdue {
-                border-left-color: var(--danger);
+            .attendance-item.bg-izin {
+                border-left-color: var(--info);
             }
 
             .section-header {
                 padding: 20px 0;
-                border-bottom: 1px solid rgba(0,0,0,0.05);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                 margin-bottom: 30px;
             }
 
             .breadcrumb-item.active {
                 color: var(--primary);
-            }
-
-            .dropdown-toggle::after {
-                display: none;
-            }
-
-            .card-header {
-                border-bottom: 1px solid rgba(0,0,0,0.05);
-                background-color: transparent;
             }
         </style>
     @endpush
@@ -170,8 +143,8 @@
             <div class="section-header">
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div>
-                        <h1 class="h3 mb-0 text-gray-800">SPP Payment Dashboard</h1>
-                        <p class="mb-0 text-muted">Ringkasan dan analisis pembayaran SPP</p>
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard Absensi</h1>
+                        <p class="mb-0 text-muted">Ringkasan dan analisis kehadiran rapat</p>
                     </div>
                     <div class="section-header-breadcrumb">
                         <div class="breadcrumb-item active"><i class="bi bi-house-door"></i> Dashboard</div>
@@ -187,15 +160,15 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon">
-                                        <i class="bi bi-cash-stack"></i>
+                                        <i class="bi bi-calendar-event"></i>
                                     </div>
                                     <div>
-                                        <div class="card-label">Total Pembayaran Bulan Ini</div>
-                                        <div class="card-value">Rp {{ number_format($currentMonthPayments, 0, ',', '.') }}</div>
+                                        <div class="card-label">Total Agenda Rapat</div>
+                                        <div class="card-value">{{ $totalAgendas }}</div>
                                     </div>
                                 </div>
                                 <div class="mt-3 text-right">
-                                    <span class="text-success small"><i class="bi bi-arrow-up"></i> 12% dari bulan lalu</span>
+                                    <a href="{{ route('agenda.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
                                 </div>
                             </div>
                         </div>
@@ -205,19 +178,20 @@
                         <div class="dashboard-card card h-100">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
-                                    <div class="card-icon" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                                    <div class="card-icon"
+                                        style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
                                         <i class="bi bi-check-circle"></i>
                                     </div>
                                     <div>
-                                        <div class="card-label">Pembayaran Lunas</div>
-                                        <div class="card-value">{{ $paidPayments }}</div>
+                                        <div class="card-label">Hadir</div>
+                                        <div class="card-value">{{ $hadirCount }}</div>
                                     </div>
                                 </div>
                                 <div class="mt-3">
-                                    <div class="progress progress-thin">
-
-
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" style="width: {{ $hadirPercentage }}%"></div>
                                     </div>
+                                    <small class="text-muted">{{ $hadirPercentage }}% dari total absensi</small>
                                 </div>
                             </div>
                         </div>
@@ -227,16 +201,20 @@
                         <div class="dashboard-card card h-100">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
-                                    <div class="card-icon" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
-                                        <i class="bi bi-exclamation-triangle"></i>
+                                    <div class="card-icon"
+                                        style="background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);">
+                                        <i class="bi bi-x-circle"></i>
                                     </div>
                                     <div>
-                                        <div class="card-label">Pembayaran Tertunda</div>
-                                        <div class="card-value">{{ $pendingPayments }}</div>
+                                        <div class="card-label">Tidak Hadir</div>
+                                        <div class="card-value">{{ $tidakHadirCount }}</div>
                                     </div>
                                 </div>
-                                <div class="mt-3 text-right">
-                                    <a href="{{ route('payment.index') }}?status=pending" class="btn btn-sm btn-warning">Lihat Detail</a>
+                                <div class="mt-3">
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" style="width: {{ $tidakHadirPercentage }}%"></div>
+                                    </div>
+                                    <small class="text-muted">{{ $tidakHadirPercentage }}% dari total absensi</small>
                                 </div>
                             </div>
                         </div>
@@ -246,16 +224,20 @@
                         <div class="dashboard-card card h-100">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
-                                    <div class="card-icon" style="background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);">
-                                        <i class="bi bi-exclamation-octagon"></i>
+                                    <div class="card-icon"
+                                        style="background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);">
+                                        <i class="bi bi-info-circle"></i>
                                     </div>
                                     <div>
-                                        <div class="card-label">Pembayaran Belum Lunas</div>
-                                        <div class="card-value">{{ $unpaidngPayments }}</div>
+                                        <div class="card-label">Izin</div>
+                                        <div class="card-value">{{ $izinCount }}</div>
                                     </div>
                                 </div>
-                                <div class="mt-3 text-right">
-                                    <a href="{{ route('payment.index') }}?status=unpaid" class="btn btn-sm btn-danger">Kirim Pengingat</a>
+                                <div class="mt-3">
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-info" style="width: {{ $izinPercentage }}%"></div>
+                                    </div>
+                                    <small class="text-muted">{{ $izinPercentage }}% dari total absensi</small>
                                 </div>
                             </div>
                         </div>
@@ -264,63 +246,52 @@
 
                 <!-- Charts Row -->
                 <div class="row mb-4">
-                    <!-- Payment Statistics Chart -->
+                    <!-- Attendance Statistics Chart -->
                     <div class="col-lg-8 mb-4">
                         <div class="dashboard-card card h-100">
                             <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Statistik Pembayaran SPP</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Statistik Kehadiran Bulan Ini</h6>
                                 <div class="d-flex">
-                                    <select id="yearSelect" class="form-control form-control-sm mr-2">
-                                        @foreach(range(date('Y') - 2, date('Y')) as $year)
-                                            <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                    <select id="monthSelect" class="form-control form-control-sm mr-2">
+                                        @foreach(range(1, 12) as $month)
+                                            <option value="{{ $month }}" {{ $selectedMonth == $month ? 'selected' : '' }}>
+                                                {{ DateTime::createFromFormat('!m', $month)->format('F') }}
+                                            </option>
                                         @endforeach
                                     </select>
-                                    <button class="btn btn-sm btn-outline-primary" id="exportChartBtn">
-                                        <i class="bi bi-download"></i> Export
-                                    </button>
+                                    <select id="yearSelect" class="form-control form-control-sm">
+                                        @foreach(range(date('Y') - 2, date('Y')) as $year)
+                                            <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
-                                    <div id="paymentChart"></div>
-                                    <div class="floating-card">
-                                        <div class="text-center">
-                                            <div class="text-xs text-muted">Total Tahun Ini</div>
-                                            <div class="h5 font-weight-bold">Rp {{ number_format($currentYearPayment, 0, ',', '.') }}</div>
-                                        </div>
-                                    </div>
+                                    <div id="attendanceChart"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Payment Status Pie Chart -->
+                    <!-- Attendance Status Chart -->
                     <div class="col-lg-4 mb-4">
                         <div class="dashboard-card card h-100">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="m-0 font-weight-bold text-primary">Status Pembayaran</h6>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Bulan Ini
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="statusFilter">
-                                        <a class="dropdown-item" href="#" data-period="month">Bulan Ini</a>
-                                        <a class="dropdown-item" href="#" data-period="year">Tahun Ini</a>
-                                        <a class="dropdown-item" href="#" data-period="all">Semua</a>
-                                    </div>
-                                </div>
+                            <div class="card-header">
+                                <h6 class="m-0 font-weight-bold text-primary">Distribusi Kehadiran</h6>
                             </div>
                             <div class="card-body">
-                                <div id="paymentStatusChart"></div>
+                                <div id="attendanceStatusChart"></div>
                                 <div class="mt-4 text-center small">
                                     <span class="mr-2">
-                                        <i class="fas fa-circle text-success"></i> Lunas ({{ $paidPayments }}%)
+                                        <i class="fas fa-circle text-success"></i> Hadir ({{ $hadirCount }})
                                     </span>
                                     <span class="mr-2">
-                                        <i class="fas fa-circle text-warning"></i> Tertunda ({{ $pendingPayments }}%)
+                                        <i class="fas fa-circle text-danger"></i> Tidak Hadir ({{ $tidakHadirCount }})
                                     </span>
                                     <span>
-                                        <i class="fas fa-circle text-danger"></i> Belum Bayar ({{ $unpaidngPayments }}%)
+                                        <i class="fas fa-circle text-info"></i> Izin ({{ $izinCount }})
                                     </span>
                                 </div>
                             </div>
@@ -330,66 +301,100 @@
 
                 <!-- Data Tables Row -->
                 <div class="row">
-                    <!-- Recent Payments -->
+                    <!-- Recent Attendance -->
                     <div class="col-lg-6 mb-4">
                         <div class="dashboard-card card h-100">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="m-0 font-weight-bold text-primary">Pembayaran Terbaru</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Absensi Terbaru</h6>
                                 <div>
-                                    <a href="{{ route('payment.index') }}" class="btn btn-sm btn-primary">
+                                    <a href="{{ route('absensi.index') }}" class="btn btn-sm btn-primary">
                                         <i class="bi bi-list-ul"></i> Lihat Semua
                                     </a>
                                 </div>
                             </div>
-                            <div class="card-body recent-payments" style="max-height: 350px; overflow-y: auto;">
-                                @forelse($recentPayments as $payment)
-                                    <div class="payment-item mb-3 p-3 rounded bg-{{ $payment->status }}">
+                            <div class="card-body recent-attendance" style="max-height: 350px; overflow-y: auto;">
+                                @forelse($recentAttendances as $attendance)
+                                    <div class="attendance-item mb-3 p-3 rounded bg-{{ $attendance->status }}">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <div class="d-flex align-items-center mb-1">
                                                     <div class="avatar-sm mr-2">
                                                         <span class="avatar-title rounded-circle bg-light text-dark">
-                                                            {{ substr($payment->siswa->name, 0, 1) }}
+                                                            {{ substr($attendance->user->name, 0, 1) }}
                                                         </span>
                                                     </div>
-                                                    <h6 class="font-weight-bold mb-0">{{ $payment->siswa->name }}</h6>
+                                                    <h6 class="font-weight-bold mb-0">{{ $attendance->user->name }}</h6>
                                                 </div>
                                                 <small class="text-muted">
-                                                    <i class="bi bi-calendar"></i> {{ $payment->paid_month }} {{ $payment->paid_year }} • 
-                                                    <i class="bi bi-cash"></i> Rp {{ number_format($payment->amount, 0, ',', '.') }}
+                                                    <i class="bi bi-calendar-event"></i> {{ $attendance->agenda->judul }} •
+                                                    <i class="bi bi-clock"></i>
+                                                    {{ \Carbon\Carbon::parse($attendance->agenda->tgl_kegiatan)->format('d M Y') }}
                                                 </small>
                                             </div>
                                             <div class="text-right">
-                                                <span class="status-badge bg-{{ $payment->status }}">
-                                                    {{ ucfirst($payment->status) }}
+                                                <span class="status-badge bg-{{ $attendance->status }}">
+                                                    {{ ucfirst(str_replace('_', ' ', $attendance->status)) }}
                                                 </span>
                                                 <div class="text-muted small mt-1">
-                                                    <i class="bi bi-clock"></i> {{ \Carbon\Carbon::parse($payment->paid_at)->format('d M Y') }}
+                                                    @if($attendance->keterangan)
+                                                        <i class="bi bi-chat-left-text"></i>
+                                                        {{ Str::limit($attendance->keterangan, 20) }}
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @empty
                                     <div class="text-center py-4">
-                                        <i class="bi bi-receipt text-muted" style="font-size: 3rem;"></i>
-                                        <p class="mt-2">Belum ada data pembayaran</p>
+                                        <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+                                        <p class="mt-2">Belum ada data absensi</p>
                                     </div>
                                 @endforelse
                             </div>
                         </div>
                     </div>
 
-                    <!-- Class Payment Progress -->
+                    <!-- Upcoming Agendas -->
                     <div class="col-lg-6 mb-4">
                         <div class="dashboard-card card h-100">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="m-0 font-weight-bold text-primary">Progress Pembayaran per Kelas</h6>
-                                <button class="btn btn-sm btn-outline-primary" id="refreshProgress">
-                                    <i class="bi bi-arrow-clockwise"></i> Refresh
-                                </button>
+                                <h6 class="m-0 font-weight-bold text-primary">Agenda Mendatang</h6>
+                                <div>
+                                    <a href="{{ route('agenda.create') }}" class="btn btn-sm btn-success">
+                                        <i class="bi bi-plus"></i> Tambah
+                                    </a>
+                                </div>
                             </div>
                             <div class="card-body">
-                                
+                                @forelse($upcomingAgendas as $agenda)
+                                    <div class="mb-3 p-3 border rounded">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h6 class="font-weight-bold mb-0">{{ $agenda->judul }}</h6>
+                                            <span class="badge badge-primary">
+                                                {{ \Carbon\Carbon::parse($agenda->tgl_kegiatan)->format('d M') }}
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <small class="text-muted">
+                                                <i class="bi bi-clock"></i> {{ $agenda->jam_mulai }}
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="bi bi-geo-alt"></i> {{ $agenda->tempat_kegiatan }}
+                                            </small>
+                                        </div>
+                                        <div class="mt-2">
+                                            <a href="{{ route('agenda.show', $agenda->id) }}"
+                                                class="btn btn-sm btn-outline-primary">Detail</a>
+                                            <a href="{{ route('absensi.create') }}?agenda_id={{ $agenda->id }}"
+                                                class="btn btn-sm btn-outline-success">Absensi</a>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="text-center py-4">
+                                        <i class="bi bi-calendar-check text-muted" style="font-size: 3rem;"></i>
+                                        <p class="mt-2">Tidak ada agenda mendatang</p>
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -403,32 +408,38 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            // Initialize charts with current data
-            var paymentChart = new ApexCharts(document.querySelector("#paymentChart"), {
-                series: [{
-                    name: 'Pembayaran',
-                    data: @json(array_values($monthlyPayments))
-                }],
+            // Initialize attendance chart
+            var attendanceChart = new ApexCharts(document.querySelector("#attendanceChart"), {
+                series: [
+                    {
+                        name: 'Hadir',
+                        data: @json($monthlyHadir)
+                    },
+                    {
+                        name: 'Tidak Hadir',
+                        data: @json($monthlyTidakHadir)
+                    },
+                    {
+                        name: 'Izin',
+                        data: @json($monthlyIzin)
+                    }
+                ],
                 chart: {
                     type: 'bar',
                     height: '100%',
+                    stacked: true,
                     toolbar: {
                         show: false
-                    },
-                    animations: {
-                        enabled: true,
-                        easing: 'easeinout',
-                        speed: 800
                     }
                 },
                 plotOptions: {
                     bar: {
-                        borderRadius: 4,
                         horizontal: false,
+                        borderRadius: 4,
                         columnWidth: '55%',
-                        endingShape: 'rounded'
                     },
                 },
+                colors: ['#28a745', '#dc3545', '#17a2b8'],
                 dataLabels: {
                     enabled: false
                 },
@@ -437,35 +448,36 @@
                     width: 2,
                     colors: ['transparent']
                 },
-                colors: ['#4361ee'],
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    categories: @json($dateLabels),
                 },
                 yaxis: {
-                    labels: {
-                        formatter: function (value) {
-                            return 'Rp ' + value.toLocaleString('id-ID');
-                        }
+                    title: {
+                        text: 'Jumlah Kehadiran'
                     }
+                },
+                fill: {
+                    opacity: 1
                 },
                 tooltip: {
                     y: {
-                        formatter: function (value) {
-                            return 'Rp ' + value.toLocaleString('id-ID');
+                        formatter: function (val) {
+                            return val + " orang"
                         }
                     }
                 }
             });
-            paymentChart.render();
+            attendanceChart.render();
 
-            var paymentStatusChart = new ApexCharts(document.querySelector("#paymentStatusChart"), {
-                series: [{{ $paidPayments }}, {{ $pendingPayments }}, {{ $unpaidngPayments }}],
+            // Initialize attendance status chart
+            var attendanceStatusChart = new ApexCharts(document.querySelector("#attendanceStatusChart"), {
+                series: [{{ $hadirCount }}, {{ $tidakHadirCount }}, {{ $izinCount }}],
                 chart: {
                     type: 'donut',
                     height: 350
                 },
-                labels: ['Lunas', 'Tertunda', 'Belum Bayar'],
-                colors: ['#28a745', '#ffc107', '#dc3545'],
+                labels: ['Hadir', 'Tidak Hadir', 'Izin'],
+                colors: ['#28a745', '#dc3545', '#17a2b8'],
                 responsive: [{
                     breakpoint: 480,
                     options: {
@@ -496,47 +508,13 @@
                     }
                 }
             });
-            paymentStatusChart.render();
+            attendanceStatusChart.render();
 
-            // Handle year selection change
-            $('#yearSelect').change(function () {
-                const year = $(this).val();
-                window.location.href = "{{ route('dashboard') }}?year=" + year;
-            });
-
-            // Export chart button
-            $('#exportChartBtn').click(function() {
-                paymentChart.dataURI().then(({ imgURI, blob }) => {
-                    const link = document.createElement('a');
-                    link.href = imgURI;
-                    link.download = 'statistik-pembayaran-spp-' + new Date().toISOString().slice(0,10) + '.png';
-                    link.click();
-                });
-            });
-
-            // Refresh progress button
-            $('#refreshProgress').click(function() {
-                $(this).html('<i class="bi bi-arrow-clockwise spin"></i> Memuat...');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 500);
-            });
-
-            // Status filter dropdown
-            $('[data-period]').click(function(e) {
-                e.preventDefault();
-                const period = $(this).data('period');
-                $('#statusFilter').text($(this).text());
-                // Here you would typically make an AJAX call to filter data
-                // For now we'll just show a toast
-                Swal.fire({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'info',
-                    title: 'Memfilter data untuk periode: ' + $(this).text(),
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+            // Handle filter changes
+            $('#monthSelect, #yearSelect').change(function () {
+                const month = $('#monthSelect').val();
+                const year = $('#yearSelect').val();
+                window.location.href = "{{ route('dashboard') }}?month=" + month + "&year=" + year;
             });
         </script>
     @endpush

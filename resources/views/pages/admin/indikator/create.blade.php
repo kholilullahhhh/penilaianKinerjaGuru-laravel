@@ -40,7 +40,7 @@
                                     <div class="form-group">
                                         <label>Skor</label>
                                         <input type="number" name="skor" class="form-control" required
-                                            placeholder="Masukkan Skor (0-100)" min="0" max="100" value="{{ old('skor') }}">
+                                            placeholder="Masukkan Skor (0-100)" min="0" max="100" value="{{ old ('skor') }}">
                                         <small class="text-muted">Skala 0 sampai 100</small>
                                     </div>
 

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
-use App\Models\Classes;
+use App\Models\Absensi;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Agenda;
 use Spatie\Activitylog\Models\Activity;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,64 +18,100 @@ class AdminController extends Controller
      */
 
 
-    public function index(Request $request)
+public function index(Request $request)
     {
+        // Get filter parameters
+        $selectedMonth = $request->month ?? date('n');
         $selectedYear = $request->year ?? date('Y');
-        $currentMonth = date('n');
-
-        // Get monthly payments data
-        $monthlyPayments = array_fill(1, 12, 0); // Initialize all months with 0
-        $paymentsData = Payment::selectRaw('MONTH(paid_at) as month, SUM(amount) as total')
-            ->whereYear('paid_at', $selectedYear)
-            ->groupBy('month')
-            ->get()
-            ->pluck('total', 'month')
-            ->toArray();
-
-        // Merge with actual data
-        foreach ($paymentsData as $month => $total) {
-            $monthlyPayments[$month] = $total;
+        
+        // Get date range for the selected month
+        $startDate = Carbon::create($selectedYear, $selectedMonth, 1)->startOfMonth();
+        $endDate = $startDate->copy()->endOfMonth();
+        
+        // Get days in month for chart labels
+        $daysInMonth = $startDate->daysInMonth;
+        $dateLabels = [];
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $dateLabels[] = $i;
         }
-
-        // Get class progress data
-        // $classProgress = Classes::withCount([
-        //     'students',
-        //     'payment' => function ($query) use ($selectedYear) {
-        //         $query->where('status', 'paid')
-        //             ->whereYear('paid_at', $selectedYear); // Filter payments for the selected year
-        //     }
-        // ])->get()->map(function ($class) {
-        //     $class->paid_count = $class->payments_count; // Count of paid students
-        //     $class->total_students = $class->students_count; // Total number of students
-        //     $class->percentage = $class->total_students > 0 ?
-        //         ($class->paid_count / $class->total_students) * 100 : 0; // Calculate percentage
-        //     return $class;
-        // });
+        
+        // Initialize arrays for daily attendance data
+        $monthlyHadir = array_fill(0, $daysInMonth, 0);
+        $monthlyTidakHadir = array_fill(0, $daysInMonth, 0);
+        $monthlyIzin = array_fill(0, $daysInMonth, 0);
+        
+        // Get attendance data for the month
+        $dailyAttendances = Absensi::with('agenda')
+            ->whereHas('agenda', function($query) use ($startDate, $endDate) {
+                $query->whereBetween('tgl_kegiatan', [$startDate, $endDate]);
+            })
+            ->get()
+            ->groupBy(function($item) {
+                return Carbon::parse($item->agenda->tgl_kegiatan)->format('j'); // Day of month without leading zeros
+            });
+        
+        // Populate the daily attendance data
+        foreach ($dailyAttendances as $day => $attendances) {
+            $dayIndex = (int)$day - 1; // Convert to 0-based index
+            
+            foreach ($attendances as $attendance) {
+                switch ($attendance->status) {
+                    case 'hadir':
+                        $monthlyHadir[$dayIndex]++;
+                        break;
+                    case 'tidak_hadir':
+                        $monthlyTidakHadir[$dayIndex]++;
+                        break;
+                    case 'izin':
+                        $monthlyIzin[$dayIndex]++;
+                        break;
+                }
+            }
+        }
+        
+        // Get attendance statistics
+        $totalAttendances = Absensi::count();
+        $hadirCount = Absensi::where('status', 'hadir')->count();
+        $tidakHadirCount = Absensi::where('status', 'tidak_hadir')->count();
+        $izinCount = Absensi::where('status', 'izin')->count();
+        
+        // Calculate percentages
+        $hadirPercentage = $totalAttendances > 0 ? round(($hadirCount / $totalAttendances) * 100) : 0;
+        $tidakHadirPercentage = $totalAttendances > 0 ? round(($tidakHadirCount / $totalAttendances) * 100) : 0;
+        $izinPercentage = $totalAttendances > 0 ? round(($izinCount / $totalAttendances) * 100) : 0;
+        
+        // Get recent data
+        $recentAttendances = Absensi::with(['user', 'agenda'])
+            ->latest()
+            ->take(5)
+            ->get();
+            
+        $upcomingAgendas = Agenda::where('tgl_kegiatan', '>=', now())
+            ->orderBy('tgl_kegiatan')
+            ->take(5)
+            ->get();
 
         return view('pages.admin.dashboard.index', [
             'menu' => 'dashboard',
-
-            'totalStudents' => User::where(
-                'role',
-                'siswa'
-            )->count(),
-            'currentMonthPayments' => Payment::whereYear('paid_at', $selectedYear)
-                ->whereMonth('paid_at', $currentMonth)
-                ->sum('amount'),
-            'currentYearPayment' => Payment::whereYear('paid_at', $selectedYear)
-                ->sum('amount'),
-            'paidPayments' => Payment::where('status', 'paid')->whereYear('paid_at', $selectedYear)->count(),
-            'pendingPayments' => Payment::where('status', 'pending')->whereYear('paid_at', $selectedYear)->count(),
-            'unpaidngPayments' => Payment::where('status', 'unpaid')->whereYear('paid_at', $selectedYear)->count(),
-            'monthlyPayments' => $monthlyPayments,
-            'paidPercentage' => $this->getPaymentPercentage('paid'),
-            'pendingPercentage' => $this->getPaymentPercentage('pending'),
-            'overduePercentage' => $this->getPaymentPercentage('overdue'),
-            'recentPayments' => Payment::with('siswa')->latest()->take(5)->get(),
-            // 'classProgress' => $classProgress, // Pass class progress data
+            'totalAgendas' => Agenda::count(),
+            'hadirCount' => $hadirCount,
+            'tidakHadirCount' => $tidakHadirCount,
+            'izinCount' => $izinCount,
+            'hadirPercentage' => $hadirPercentage,
+            'tidakHadirPercentage' => $tidakHadirPercentage,
+            'izinPercentage' => $izinPercentage,
+            'monthlyHadir' => $monthlyHadir,
+            'monthlyTidakHadir' => $monthlyTidakHadir,
+            'monthlyIzin' => $monthlyIzin,
+            'dateLabels' => $dateLabels,
+            'recentAttendances' => $recentAttendances,
+            'upcomingAgendas' => $upcomingAgendas,
+            'selectedMonth' => $selectedMonth,
             'selectedYear' => $selectedYear
         ]);
     }
+
+
 
 
     private function getPaymentPercentage($status)

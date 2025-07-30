@@ -18,7 +18,7 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        $datas = User::where('role', 'user')->with(['class', 'spp'])->latest()->get();
+        $datas = User::where('role', 'user')->latest()->get();
         $menu = $this->menu;
         return view('pages.admin.pegawai.index', compact('menu', 'datas'));
     }

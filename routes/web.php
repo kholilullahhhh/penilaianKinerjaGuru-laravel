@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\MidtransController;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AbsensiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,12 @@ Route::group(
 //         });
 //     }
 // );
+// User routes
+Route::prefix('user/absensi')->middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/', [AbsensiController::class, 'userIndex'])->name('user.absensi.index');
+    Route::get('/create', [AbsensiController::class, 'userCreate'])->name('user.absensi.create');
+    Route::post('/store', [AbsensiController::class, 'userStore'])->name('user.absensi.store');
+});
 
 
 // Admin
@@ -147,7 +154,7 @@ Route::group(
                 Route::delete('/hapus/{id}', 'IndicatorsController@destroy')->name('indikator.hapus');
             });
 
-            // Indikator Level
+            // Penilaian Kinerja
             Route::prefix('penilaian_kinerja')->group(function () {
                 Route::get('/', 'PenilaianController@index')->name('penilaian_kinerja.index');
                 Route::get('/create', 'PenilaianController@create')->name('penilaian_kinerja.create');
@@ -189,7 +196,7 @@ Route::group(
                 Route::put('/update', 'AgendaController@update')->name('agenda.update');
                 Route::post('/hapus/{id}', 'AgendaController@destroy')->name('agenda.hapus');
             });
-            
+
             // Absensi
             Route::prefix('absensi')->group(function () {
                 Route::get('/', 'AbsesiController@index')->name('absensi.index');
@@ -220,24 +227,6 @@ Route::group(
                 Route::post('/hapus/{id}', 'ModulController@destroy')->name('modul.hapus');
             });
 
-            //payment midtrans
-            Route::prefix('payment_midtrans')->group(function () {
-                Route::get('/', 'MidtransController@index')->name('midtrans.index');
-                Route::get('/create', 'MidtransController@create')->name('midtrans.create');
-                Route::post('/store', 'MidtransController@store')->name('midtrans.store');
-                Route::get('/edit/{id}', 'MidtransController@edit')->name('midtrans.edit');
-                Route::put('/update', 'MidtransController@update')->name('midtrans.update');
-                Route::delete('/hapus/{id}', 'MidtransController@destroy')->name('midtrans.hapus');
-            });
-
-            //payment midtrans siswa
-            Route::prefix('payment_midtrans')->group(function () {
-                Route::get('/', [MidtransController::class, 'index'])->name('midtrans.index');
-                Route::get('/create/{id}', [MidtransController::class, 'create'])->name('midtrans.create');
-                // Route store dihapus karena tidak diperlukan lagi
-                Route::get('/callback', [MidtransController::class, 'callback'])->name('midtrans.callback');
-                Route::post('/notification', [MidtransController::class, 'notificationHandler'])->name('midtrans.notification');
-            });
 
         });
     }
