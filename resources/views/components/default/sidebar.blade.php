@@ -1,10 +1,10 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{route('dashboard') }}">SMK TRIDHARMA MAROS</a>
+            <a href="{{route('dashboard') }}">SDI BONTOALA</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{route('dashboard') }}">SMK TRIDHARMA MAROS</a>
+            <a href="{{route('dashboard') }}">SDI BONTOALA</a>
         </div>
 
         <ul class="sidebar-menu">
