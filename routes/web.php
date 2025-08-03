@@ -2,7 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\User\AbsenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,11 +103,7 @@ Route::group(
 //     }
 // );
 // User routes
-Route::prefix('user/absensi')->middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/', [AbsensiController::class, 'userIndex'])->name('user.absensi.index');
-    Route::get('/create', [AbsensiController::class, 'userCreate'])->name('user.absensi.create');
-    Route::post('/store', [AbsensiController::class, 'userStore'])->name('user.absensi.store');
-});
+
 
 
 // Admin
@@ -225,6 +221,12 @@ Route::group(
                 Route::get('/edit/{id}', 'ModulController@edit')->name('modul.edit');
                 Route::put('/update', 'ModulController@update')->name('modul.update');
                 Route::post('/hapus/{id}', 'ModulController@destroy')->name('modul.hapus');
+            });
+
+            Route::prefix('user')->group(function () {
+                Route::get('/', [AbsenController::class, 'userIndex'])->name('user.absensi.index');
+                Route::get('/create', [AbsenController::class, 'userCreate'])->name('user.absensi.create');
+                Route::post('/store', [AbsenController::class, 'userStore'])->name('user.absensi.store');
             });
 
 

@@ -35,15 +35,27 @@
                                             @foreach ($datas as $index => $absensi)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $absensi->agenda->judul }}</td>
+                                                    <td>{{ $absensi->agenda->judul ?? '' }}</td>
                                                     <td>
-                                                        @if($absensi->kehadiran == 'hadir')
-                                                            <span class="badge badge-success">Hadir</span>
-                                                        @elseif($absensi->kehadiran == 'tidak_hadir')
-                                                            <span class="badge badge-danger">Tidak Hadir</span>
-                                                        @else
-                                                            <span class="badge badge-warning">Izin</span>
-                                                        @endif
+                                                        @switch($absensi->status)
+                                                            @case('hadir')
+                                                                <span class="badge badge-success">Hadir</span>
+                                                                @break
+                                                            @case('tidak hadir')
+                                                                <span class="badge badge-danger">Tidak Hadir</span>
+                                                                @break
+                                                            @case('izin')
+                                                                <span class="badge badge-warning">Izin</span>
+                                                                @break
+                                                            @case('sakit')
+                                                                <span class="badge badge-info">Sakit</span>
+                                                                @break
+                                                            @case('terlambat')
+                                                                <span class="badge badge-secondary">Terlambat</span>
+                                                                @break
+                                                            @default
+                                                                <span class="badge badge-light">Unknown</span>
+                                                        @endswitch
                                                     </td>
                                                     <td>{{ $absensi->keterangan ?? '-' }}</td>
                                                     <td>{{ $absensi->created_at->format('d M Y H:i') }}</td>

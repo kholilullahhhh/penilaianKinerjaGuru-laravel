@@ -383,8 +383,6 @@
                                             </small>
                                         </div>
                                         <div class="mt-2">
-                                            <a href="{{ route('agenda.show', $agenda->id) }}"
-                                                class="btn btn-sm btn-outline-primary">Detail</a>
                                             <a href="{{ route('absensi.create') }}?agenda_id={{ $agenda->id }}"
                                                 class="btn btn-sm btn-outline-success">Absensi</a>
                                         </div>

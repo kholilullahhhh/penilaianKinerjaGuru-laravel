@@ -74,9 +74,9 @@
 
             @if (session('role') == 'user')
 
-                <li class="{{ $menu == 'midtrans' ? 'active' : '' }}">
+                <li class="{{ $menu == 'absensi' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('user.absensi.index') }}">
-                        <i class="fas fa-wallet"></i> <span>Data Transaksi</span>
+                        <i class="fas fa-wallet"></i> <span>Data Absensi</span>
                     </a>
                 </li>
                 <li class="menu-header">Landing Page</li>

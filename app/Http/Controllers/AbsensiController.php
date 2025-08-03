@@ -64,37 +64,37 @@ class AbsensiController extends Controller
 
 
     // For User
-    public function userIndex()
-    {
-        $user = Auth::user();
-        $datas = Absensi::with('agenda')
-            ->where('user_id', $user->id)
-            ->get();
+    // public function userIndex()
+    // {
+    //     $user = Auth::user();
+    //     $datas = Absensi::with('agenda')
+    //         ->where('user_id', $user->id)
+    //         ->get();
 
-        return view('pages.user.absensi.index', compact('datas'));
-    }
+    //     return view('pages.user.absensi.index', compact('datas'));
+    // }
 
-    public function userCreate()
-    {
-        $agendas = Agenda::where('status', 'publish')->get();
-        return view('pages.user.absensi.create', compact('agendas'));
-    }
+    // public function userCreate()
+    // {
+    //     $agendas = Agenda::where('status', 'publish')->get();
+    //     return view('pages.user.absensi.create', compact('agendas'));
+    // }
 
-    public function userStore(Request $request)
-    {
-        $user = Auth::user();
+    // public function userStore(Request $request)
+    // {
+    //     $user = Auth::user();
 
-        $validated = $request->validate([
-            'agenda_id' => 'required|exists:agendas,id',
-            'kehadiran' => 'required|in:hadir,tidak_hadir,izin',
-            'keterangan' => 'nullable|string'
-        ]);
+    //     $validated = $request->validate([
+    //         'agenda_id' => 'required|exists:agendas,id',
+    //         'kehadiran' => 'required|in:hadir,tidak_hadir,izin',
+    //         'keterangan' => 'nullable|string'
+    //     ]);
 
-        $validated['user_id'] = $user->id;
+    //     $validated['user_id'] = $user->id;
 
-        Absensi::create($validated);
-        return redirect()->route('user.absensi.index')->with('success', 'Data absensi berhasil disimpan');
-    }
+    //     Absensi::create($validated);
+    //     return redirect()->route('user.absensi.index')->with('success', 'Data absensi berhasil disimpan');
+    // }
 
 
 
