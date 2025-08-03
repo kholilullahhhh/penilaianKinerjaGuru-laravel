@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
-class AbsesiController extends Controller
+class AbsensiController extends Controller
 {
     private $menu = 'absensi';
 

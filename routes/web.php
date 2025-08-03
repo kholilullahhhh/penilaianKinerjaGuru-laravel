@@ -199,12 +199,12 @@ Route::group(
 
             // Absensi
             Route::prefix('absensi')->group(function () {
-                Route::get('/', 'AbsesiController@index')->name('absensi.index');
-                Route::get('/create', 'AbsesiController@create')->name('absensi.create');
-                Route::post('/store', 'AbsesiController@store')->name('absensi.store');
-                Route::get('/edit/{id}', 'AbsesiController@edit')->name('absensi.edit');
-                Route::put('/update', 'AbsesiController@update')->name('absensi.update');
-                Route::post('/hapus/{id}', 'AbsesiController@destroy')->name('absensi.hapus');
+                Route::get('/', 'AbsensiController@index')->name('absensi.index');
+                Route::get('/create', 'AbsensiController@create')->name('absensi.create');
+                Route::post('/store', 'AbsensiController@store')->name('absensi.store');
+                Route::get('/edit/{id}', 'AbsensiController@edit')->name('absensi.edit');
+                Route::put('/update', 'AbsensiController@update')->name('absensi.update');
+                Route::post('/hapus/{id}', 'AbsensiController@destroy')->name('absensi.hapus');
             });
 
             // Tema
