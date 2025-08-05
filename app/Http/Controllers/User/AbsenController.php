@@ -20,13 +20,13 @@ class AbsenController extends Controller
         })->with(['user', 'agenda'])->latest()->get();
         $menu = $this->menu;
 
-        return view('pages.user.index', compact('menu', 'datas'));
+        return view('pages.user.absen.index', compact('menu', 'datas'));
     }
     public function userCreate()
     {
         $menu = $this->menu;
         $agendas = Agenda::where('status', 'publish')->get();
-        return view('pages.user.create', compact('agendas', 'menu'));
+        return view('pages.user.absen.create', compact('agendas', 'menu'));
     }
     public function userStore(Request $request)
     {
@@ -34,7 +34,7 @@ class AbsenController extends Controller
 
         $validated = $request->validate([
             'agenda_id' => 'required|exists:agendas,id',
-            'status' => 'required|in:hadir,tidak_hadir,izin',
+            'status' => 'required|in:hadir,tidak hadir,izin,sakit,terlambat',
             'keterangan' => 'nullable|string'
         ]);
 
