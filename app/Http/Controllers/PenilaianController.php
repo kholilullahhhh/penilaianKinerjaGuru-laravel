@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Indicators;
 use App\Models\Penilaian_kinerja;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PenilaianController extends Controller
@@ -14,10 +16,11 @@ class PenilaianController extends Controller
      */
     public function index()
     {
-        $datas = Penilaian_kinerja::get();
+        $datas = Penilaian_kinerja::with(['user', 'indikator'])->get();
         $menu = $this->menu;
         return view('pages.admin.penilaian_kinerja.index', compact('menu', 'datas'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,8 +28,12 @@ class PenilaianController extends Controller
     public function create()
     {
         $menu = $this->menu;
-        return view('pages.admin.penilaian_kinerja.create', compact('menu'));
+        $users = User::where('role', 'user')->get();
+        $indicators = Indicators::all();
+
+        return view('pages.admin.penilaian_kinerja.create', compact('menu', 'users', 'indicators'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -50,9 +57,11 @@ class PenilaianController extends Controller
     public function edit($id)
     {
         $data = Penilaian_kinerja::findOrFail($id);
+        $users = User::where('role', 'user')->get();
+        $indicators = Indicators::all();
         $menu = $this->menu;
 
-        return view('pages.admin.penilaian_kinerja.edit', compact('data', 'menu'));
+        return view('pages.admin.penilaian_kinerja.edit', compact('data', 'indicators', 'users', 'menu'));
     }
 
     /**

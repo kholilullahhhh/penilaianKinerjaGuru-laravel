@@ -1,17 +1,16 @@
-@extends('layouts.app', ['title' => 'Data SPP'])
+@extends('layouts.app', ['title' => 'Tambah Data Penilaian Kinerja'])
+
 @section('content')
     @push('styles')
         <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.css') }}">
         <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
-        <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
-        <link rel="stylesheet" href="{{ asset('library/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
     @endpush
 
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Tambah Data SPP</h1>
+                <h1>Tambah Data Penilaian Kinerja</h1>
             </div>
 
             <div class="section-body">
@@ -21,7 +20,7 @@
                             @csrf
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>Form Tambah SPP</h4>
+                                    <h4>Form Tambah Penilaian Kinerja</h4>
                                 </div>
                                 <div class="card-body">
                                     @if ($errors->any())
@@ -35,26 +34,45 @@
                                     @endif
 
                                     <div class="form-group">
-                                        <label>Tahun</label>
-                                        <input type="number" name="year" class="form-control" required
-                                            placeholder="Misal: 2025" value="{{ old('year') }}">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Semester</label>
-                                        <select name="semester" class="form-control selectric" required>
-                                            <option value="">-- Pilih Semester --</option>
-                                            <option value="ganjil" {{ old('semester') == 'ganjil' ? 'selected' : '' }}>Ganjil
-                                            </option>
-                                            <option value="genap" {{ old('semester') == 'genap' ? 'selected' : '' }}>Genap
-                                            </option>
+                                        <label>Pegawai</label>
+                                        <select name="user_id" class="form-control selectric" required>
+                                            <option value="">-- Pilih Pegawai --</option>
+                                            @foreach($users as $user)
+                                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                                    {{ $user->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Nominal SPP</label>
-                                        <input type="number" name="nominal" class="form-control" required
-                                            placeholder="Masukkan jumlah nominal SPP" value="{{ old('nominal') }}">
+                                        <label>Indikator Kinerja</label>
+                                        <select name="indicator_id" class="form-control selectric" required>
+                                            <option value="">-- Pilih Indikator --</option>
+                                            @foreach($indicators as $indicator)
+                                                <option value="{{ $indicator->id }}" {{ old('indicator_id') == $indicator->id ? 'selected' : '' }}>
+                                                    {{ $indicator->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Skor Akhir</label>
+                                        <input type="number" step="0.01" name="skor_akhir" class="form-control" required
+                                            placeholder="Masukkan skor akhir (contoh: 85.50)" value="{{ old('skor_akhir') }}">
+                                        <small class="text-muted">Gunakan titik (.) untuk desimal</small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Kategori</label>
+                                        <select name="kategori" class="form-control selectric" required>
+                                            <option value="">-- Pilih Kategori --</option>
+                                            <option value="Sangat Baik" {{ old('kategori') == 'Sangat Baik' ? 'selected' : '' }}>Sangat Baik</option>
+                                            <option value="Baik" {{ old('kategori') == 'Baik' ? 'selected' : '' }}>Baik</option>
+                                            <option value="Cukup" {{ old('kategori') == 'Cukup' ? 'selected' : '' }}>Cukup</option>
+                                            <option value="Kurang" {{ old('kategori') == 'Kurang' ? 'selected' : '' }}>Kurang</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -72,9 +90,7 @@
 
     @push('scripts')
         <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
-        <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
         <script src="{{ asset('library/summernote/dist/summernote-bs4.js') }}"></script>
-        <script src="{{ asset('library/upload-preview/upload-preview.js') }}"></script>
         <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
         <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
     @endpush

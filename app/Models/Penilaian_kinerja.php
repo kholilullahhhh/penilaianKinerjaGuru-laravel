@@ -10,7 +10,7 @@ class Penilaian_kinerja extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'indikator_id',
+        'indicator_id',
         'skor_akhir',
         'kategori',
     ];
@@ -20,7 +20,7 @@ class Penilaian_kinerja extends Model
     }
     public function indikator()
     {
-        return $this->belongsTo(Indicators::class, 'indikator_id', 'id');
+        return $this->belongsTo(Indicators::class, 'indicator_id', 'id');
     }
 
 

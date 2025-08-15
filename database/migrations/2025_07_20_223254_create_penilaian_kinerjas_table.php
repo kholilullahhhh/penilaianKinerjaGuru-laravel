@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('user_id');
             $table->string('indicator_id');
             $table->float('skor_akhir');
-            $table->enum('kategori', ['Sangat Baik', 'Baik', 'Cukur', 'Kurang']);
+            $table->enum('kategori', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang']);
             $table->timestamps();
         });
     }

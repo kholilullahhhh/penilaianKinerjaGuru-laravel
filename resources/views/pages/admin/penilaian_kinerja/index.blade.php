@@ -43,7 +43,7 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $penilaian->user->name ?? 'N/A' }}</td>
-                                                    <td>{{ $penilaian->indicator->name ?? 'N/A' }}</td>
+                                                    <td>{{ $penilaian->indikator->name ?? 'N/A' }}</td>
                                                     <td>{{ number_format($penilaian->skor_akhir, 2) }}</td>
                                                     <td>
                                                         @switch($penilaian->kategori)
