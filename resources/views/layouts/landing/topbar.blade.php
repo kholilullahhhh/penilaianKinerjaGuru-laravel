@@ -6,8 +6,8 @@
                 <div class="row align-items-center">
                     <div class="logo col-lg-3 text-center text-lg-left mb-3 mb-md-5 mb-lg-0">
                         <a class="d-block" href="/">
-                            <img style="width:auto; height:80px" 
-                                src="{{ asset('landing/images/footer/rpph.jpg') }}" alt="BBGP SulSel">
+                            <img style="width:auto; height:80px" src="{{ asset('landing/images/footer/tut.png') }}"
+                                alt="BBGP SulSel">
                         </a>
                     </div><!-- logo end -->
 
@@ -62,7 +62,8 @@
 
                         <div id="navbar-collapse" class="collapse navbar-collapse">
                             <ul class="nav navbar-nav mr-auto">
-                                <li class="nav-item {{ $menu == 'profil' ? 'active' : '' }}"><a class="nav-link" href="/">Profil</a></li>
+                                <li class="nav-item {{ $menu == 'profil' ? 'active' : '' }}"><a class="nav-link"
+                                        href="/">Profil</a></li>
 
                                 <!-- <li class="nav-item {{ $menu == 'data' ? 'active' : '' }} dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Data <i
@@ -73,60 +74,60 @@
                                     </ul>
                                 </li> -->
 
-                                <li class="nav-item {{ $menu == 'kontak' ? 'active' : '' }}"><a class="nav-link" href="{{ route('user.kontak') }} ">Kontak</a></li>
+                                <li class="nav-item {{ $menu == 'kontak' ? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('user.kontak') }} ">Kontak</a></li>
 
                                 <!-- <li class="nav-item {{ $menu == 'kegiatan' ? 'active' : '' }}"><a class="nav-link" href="{{ route('user.kegiatan') }}">Kegiatan</a></li> -->
-                                
+
                                 <!-- <li class="nav-item {{ $menu == 'statistik' ? 'active' : '' }}"><a class="nav-link" href="{{ route('user.statistik') }}">Statistik</a></li> -->
-                                
+
                                 <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
 
 
                                 {{-- <li class="nav-item dropdown">
-                                  <a href="#" class="nav-link dropdown-toggle"
-                                      data-toggle="dropdown">Projects <i class="fa fa-angle-down"></i></a>
-                                  <ul class="dropdown-menu" role="menu">
-                                      <li><a href="projects.html">Projects All</a></li>
-                                      <li><a href="projects-single.html">Projects Single</a></li>
-                                  </ul>
-                              </li>
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Projects <i
+                                            class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="projects.html">Projects All</a></li>
+                                        <li><a href="projects-single.html">Projects Single</a></li>
+                                    </ul>
+                                </li>
 
-                              <li class="nav-item dropdown">
-                                  <a href="#" class="nav-link dropdown-toggle"
-                                      data-toggle="dropdown">Services <i class="fa fa-angle-down"></i></a>
-                                  <ul class="dropdown-menu" role="menu">
-                                      <li><a href="services.html">Services All</a></li>
-                                      <li><a href="service-single.html">Services Single</a></li>
-                                  </ul>
-                              </li>
+                                <li class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Services <i
+                                            class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="services.html">Services All</a></li>
+                                        <li><a href="service-single.html">Services Single</a></li>
+                                    </ul>
+                                </li>
 
-                              <li class="nav-item dropdown">
-                                  <a href="#" class="nav-link dropdown-toggle"
-                                      data-toggle="dropdown">Features <i class="fa fa-angle-down"></i></a>
-                                  <ul class="dropdown-menu" role="menu">
-                                      <li><a href="typography.html">Typography</a></li>
-                                      <li><a href="404.html">404</a></li>
-                                      <li class="dropdown-submenu">
-                                          <a href="#!" class="dropdown-toggle"
-                                              data-toggle="dropdown">Parent Menu</a>
-                                          <ul class="dropdown-menu">
-                                              <li><a href="#!">Child Menu 1</a></li>
-                                              <li><a href="#!">Child Menu 2</a></li>
-                                              <li><a href="#!">Child Menu 3</a></li>
-                                          </ul>
-                                      </li>
-                                  </ul>
-                              </li>
+                                <li class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Features <i
+                                            class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="typography.html">Typography</a></li>
+                                        <li><a href="404.html">404</a></li>
+                                        <li class="dropdown-submenu">
+                                            <a href="#!" class="dropdown-toggle" data-toggle="dropdown">Parent Menu</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#!">Child Menu 1</a></li>
+                                                <li><a href="#!">Child Menu 2</a></li>
+                                                <li><a href="#!">Child Menu 3</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                              <li class="nav-item dropdown">
-                                  <a href="#" class="nav-link dropdown-toggle"
-                                      data-toggle="dropdown">News <i class="fa fa-angle-down"></i></a>
-                                  <ul class="dropdown-menu" role="menu">
-                                      <li><a href="news-left-sidebar.html">News Left Sidebar</a></li>
-                                      <li><a href="news-right-sidebar.html">News Right Sidebar</a></li>
-                                      <li><a href="news-single.html">News Single</a></li>
-                                  </ul>
-                              </li> --}}
+                                <li class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">News <i
+                                            class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="news-left-sidebar.html">News Left Sidebar</a></li>
+                                        <li><a href="news-right-sidebar.html">News Right Sidebar</a></li>
+                                        <li><a href="news-single.html">News Single</a></li>
+                                    </ul>
+                                </li> --}}
 
                             </ul>
                         </div>

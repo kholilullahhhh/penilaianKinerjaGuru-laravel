@@ -4,11 +4,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Tambah Pegawai</h1>
+                <h1>Tambah Data Guru</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="{{ route('pegawai.index') }}">Data Pegawai</a></div>
-                    <div class="breadcrumb-item active">Tambah Pegawai</div>
+                    <div class="breadcrumb-item"><a href="{{ route('pegawai.index') }}">Data Guuru</a></div>
+                    <div class="breadcrumb-item active">Tambah Guru</div>
                 </div>
             </div>
 
@@ -17,7 +17,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Formulir Pendaftaran Pegawai</h4>
+                                <h4>Formulir Pendaftaran Guru</h4>
                             </div>
                             <div class="card-body">
                                 @if ($errors->any())

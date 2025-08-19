@@ -72,7 +72,7 @@ public function index(Request $request)
         // Get attendance statistics
         $totalAttendances = Absensi::count();
         $hadirCount = Absensi::where('status', 'hadir')->count();
-        $tidakHadirCount = Absensi::where('status', 'tidak_hadir')->count();
+        $tidakHadirCount = Absensi::where('status', 'tidak hadir')->count();
         $izinCount = Absensi::where('status', 'izin')->count();
         
         // Calculate percentages

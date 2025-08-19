@@ -14,8 +14,8 @@
                     <div class="row align-items-center h-100">
                         <div class="col-md-12 text-center">
                             <h2 class="slide-title" data-animation-in="slideInLeft">Selamat Datang di</h2>
-                            <h3 class="slide-sub-title" data-animation-in="slideInRight">Sistem Pembayaran SPP <br>
-                                SMK TRIDHARMA MAROS
+                            <h3 class="slide-sub-title" data-animation-in="slideInRight">Sistem Penilaian Kinerja<br>
+                                SDI Bontoala Satu
                             </h3>
                             <p data-animation-in="slideInLeft" data-duration-in="1.2">
                                 {{-- <a href="services.html" class="slider btn btn-primary">Our Services</a>
@@ -34,8 +34,8 @@
                         <div class="col-md-12">
                             <h2 class="slide-title-box" data-animation-in="slideInDown">Siap Melayani Anda</h2>
                             <h3 class="slide-title" data-animation-in="fadeIn">Dedikasi Kami untuk Anda</h3>
-                            <h3 class="slide-sub-title" data-animation-in="slideInLeft">Sistem Pembayaran SPP <br>
-                                SMK TRIDHARMA MAROS</h3>
+                            <h3 class="slide-sub-title" data-animation-in="slideInLeft">Sistem Penilaian Kinerja<br>
+                                SDI Bontoala Satu</h3>
                             <p data-animation-in="slideInRight">
                                 {{-- <a href="services.html" class="slider btn btn-primary border">Pelayanan Kami</a> --}}
                             </p>
@@ -191,43 +191,46 @@
                 <div class="col-lg-12">
                     <div class="ts-intro">
                         <h2 class="into-title">Tentang Kami</h2>
-                        <h3 class="into-sub-title">SMK TRIDHARMA MAROS</h3>
+                        <h3 class="into-sub-title">SDI BONTOALA SATU</h3>
                         <p class="my-sub-content">
-                            SMK Tridharma Maros memberikan kemudahan dalam melakukan pembayaran SPP (Sumbangan Pembinaan
-                            Pendidikan) secara online.
-                            Dengan memanfaatkan teknologi, SMK Tridharma Maros telah bekerja sama dengan berbagai penyedia
-                            layanan **payment gateway** yang memungkinkan siswa dan orang tua untuk melakukan pembayaran SPP
-                            dengan mudah dan cepat melalui internet.
+                            Aplikasi Sistem Penilaian Kinerja Guru Honorer pada SDI Bontoala Satu dirancang untuk memberikan
+                            kemudahan dalam
+                            melakukan proses evaluasi dan penilaian kinerja guru honorer secara transparan dan terstruktur.
+                            Dengan memanfaatkan teknologi, sekolah dapat melakukan penilaian secara digital sehingga lebih
+                            cepat, akurat,
+                            dan efisien.
                         </p>
                         <p class="my-sub-content">
-                            Pembayaran dapat dilakukan menggunakan berbagai metode, termasuk transfer bank, kartu kredit,
-                            dan dompet digital (e-wallet).
-                            Sistem **payment gateway** yang kami gunakan menjamin transaksi yang aman dan terpercaya. Dengan
-                            pembayaran online, siswa dan orang tua tidak perlu datang langsung ke sekolah, sehingga lebih
-                            efisien dan menghemat waktu.
+                            Penilaian mencakup berbagai aspek kinerja guru, termasuk kedisiplinan, kompetensi pedagogik,
+                            profesionalisme,
+                            serta tanggung jawab dalam melaksanakan tugas mengajar.
+                            Sistem ini mempermudah kepala sekolah maupun tim penilai untuk memberikan skor, memantau
+                            perkembangan, serta
+                            menghasilkan laporan kinerja secara otomatis.
                         </p>
                         <p class="my-sub-content">
-                            Dengan menggunakan sistem ini, setiap transaksi tercatat secara otomatis dalam sistem kami,
-                            memungkinkan administrasi yang lebih cepat dan mengurangi potensi kesalahan dalam proses
-                            pembayaran.
-                            Kami berkomitmen untuk menyediakan layanan terbaik demi kenyamanan semua pihak dalam melakukan
-                            pembayaran SPP di SMK Tridharma Maros.
+                            Dengan adanya aplikasi ini, data penilaian tersimpan secara rapi dan terintegrasi,
+                            sehingga meminimalisir potensi kesalahan manual dalam proses evaluasi.
+                            Kami berkomitmen untuk menghadirkan sistem penilaian kinerja yang adil, transparan, dan
+                            bermanfaat
+                            bagi pengembangan kualitas guru honorer di SDI Bontoala Satu.
                         </p>
                     </div><!-- Intro box end -->
                 </div><!-- Col end -->
 
 
+
                 <!-- <div class="col-lg-6 mt-4 mt-lg-4 justify-content-center">
-                                        <h3 class="into-sub-title"> </h3>
-                                        <div class="box-video"> -->
+                                            <h3 class="into-sub-title"> </h3>
+                                            <div class="box-video"> -->
 
                 <!--<iframe width="420" height="315" title="Program Pengembangan keprofesian Guru. Pendidikan Jasmani, olahraga dan kesehatan" src="https://www.youtube.com/embed/gJ3g7xX9O-s"-->
                 <!--    allowfullscreen>-->
                 <!--</iframe>-->
                 <!-- <div class="video-placeholder" data-src="https://www.youtube.com"
-                                                onclick="loadVideo(this)">
-                                                <div class="video-title">Rencana Pelaksanaan Pembelajaran</div>
-                                            </div> -->
+                                                    onclick="loadVideo(this)">
+                                                    <div class="video-title">Rencana Pelaksanaan Pembelajaran</div>
+                                                </div> -->
                 <!--<div class="video-title">Balai Besar Guru Penggerak</div>-->
             </div>
             <!--/ Accordion end -->
@@ -394,7 +397,7 @@
                     });
 
                     lazyVideos.forEach(function (video) {
-                                                                lazyVideoObserv er.observe(video);
+                                                                        lazyVideoObserv er.observe(video);
                     });
                 } else {
                     // Fallback for older browsers

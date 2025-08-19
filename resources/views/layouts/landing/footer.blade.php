@@ -5,8 +5,8 @@
                 <div class="col-lg-4 col-md-6 footer-widget footer-about">
                     <h3 class="widget-title">Tentang Kami</h3>
                     <img loading="lazy" width="200px" class="footer-logo"
-                        src="{{ asset('landing/images/footer/rpph.jpg') }}" alt="Constra">
-                    <p>SMK TRIDARMA MAROS - Kementerian Pendidikan, Kebudayaan, Riset dan Teknologi</p>
+                        src="{{ asset('landing/images/footer/tut.png') }}" alt="Constra">
+                    <p>SDI Bontoala Satu - Kementerian Pendidikan, Kebudayaan, Riset dan Teknologi</p>
                     <div class="footer-social">
                         <ul>
                             <li><a href="https://www.facebook.com/" aria-label="Facebook"><i

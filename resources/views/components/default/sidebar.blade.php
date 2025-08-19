@@ -24,7 +24,7 @@
                     <ul class="dropdown-menu">
                         <li class="{{ $menu == 'pegawai' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('pegawai.index') }}">
-                                Data Pegawai
+                                Data Guru
                             </a>
                         </li>
                         <li class="{{ $menu == 'agenda' ? 'active' : '' }}">
