@@ -320,10 +320,12 @@
                                                 <div class="d-flex align-items-center mb-1">
                                                     <div class="avatar-sm mr-2">
                                                         <span class="avatar-title rounded-circle bg-light text-dark">
-                                                            {{ substr($attendance->user->name, 0, 1) }}
+                                                            {{ $attendance->user ? substr($attendance->user->name, 0, 1) : '?' }}
                                                         </span>
                                                     </div>
-                                                    <h6 class="font-weight-bold mb-0">{{ $attendance->user->name }}</h6>
+                                                    <h6 class="font-weight-bold mb-0">
+                                                        {{ $attendance->user->name ?? 'User tidak ditemukan' }}
+                                                    </h6>
                                                 </div>
                                                 <small class="text-muted">
                                                     <i class="bi bi-calendar-event"></i> {{ $attendance->agenda->judul }} •

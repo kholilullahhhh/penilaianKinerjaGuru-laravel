@@ -160,16 +160,6 @@ Route::group(
                 Route::delete('/hapus/{id}', 'PenilaianController@destroy')->name('penilaian_kinerja.hapus');
             });
 
-            // payment
-            Route::prefix('payment')->group(function () {
-                Route::get('/', 'PaymentController@index')->name('payment.index');
-                Route::get('/create', 'PaymentController@create')->name('payment.create');
-                Route::post('/store', 'PaymentController@store')->name('payment.store');
-                Route::delete('/hapus/{id}', 'PaymentController@destroy')->name('payment.hapus');
-                Route::put('/konformasi/{id}', 'PaymentController@konfirmasi')->name('konfirmasi.pembayaran');
-
-            });
-
 
             // Akun
             Route::prefix('akun')->group(function () {
@@ -211,26 +201,6 @@ Route::group(
                 Route::get('/edit/{id}', 'JadwalController@edit')->name('jadwal.edit');
                 Route::put('/update', 'JadwalController@update')->name('jadwal.update');
                 Route::post('/hapus/{id}', 'JadwalController@destroy')->name('jadwal.hapus');
-            });
-
-            // Tema
-            Route::prefix('tema')->group(function () {
-                Route::get('/', 'TemaController@index')->name('tema.index');
-                Route::get('/create', 'TemaController@create')->name('tema.create');
-                Route::post('/store', 'TemaController@store')->name('tema.store');
-                Route::get('/edit/{id}', 'TemaController@edit')->name('tema.edit');
-                Route::put('/update', 'TemaController@update')->name('tema.update');
-                Route::post('/hapus/{id}', 'TemaController@destroy')->name('tema.hapus');
-            });
-
-            // Modul
-            Route::prefix('modul')->group(function () {
-                Route::get('/', 'ModulController@index')->name('modul.index');
-                Route::get('/create', 'ModulController@create')->name('modul.create');
-                Route::post('/store', 'ModulController@store')->name('modul.store');
-                Route::get('/edit/{id}', 'ModulController@edit')->name('modul.edit');
-                Route::put('/update', 'ModulController@update')->name('modul.update');
-                Route::post('/hapus/{id}', 'ModulController@destroy')->name('modul.hapus');
             });
 
             Route::prefix('user')->group(function () {

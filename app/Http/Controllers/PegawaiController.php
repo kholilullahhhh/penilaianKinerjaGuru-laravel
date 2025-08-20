@@ -29,9 +29,8 @@ class PegawaiController extends Controller
     public function create()
     {
         $menu = $this->menu;
-        $kelas = Classes::all();
         $user = User::where('role', 'user')->get();
-        return view('pages.admin.pegawai.create', compact('menu', 'kelas', 'user'));
+        return view('pages.admin.pegawai.create', compact('menu',  'user'));
     }
 
     /**
@@ -71,10 +70,9 @@ class PegawaiController extends Controller
     public function edit($id)
     {
         $data = User::findOrFail($id);
-        $kelas = Classes::all();
         $menu = $this->menu;
 
-        return view('pages.admin.pegawai.edit', compact('data', 'kelas', 'menu'));
+        return view('pages.admin.pegawai.edit', compact('data', 'menu'));
     }
 
     /**
