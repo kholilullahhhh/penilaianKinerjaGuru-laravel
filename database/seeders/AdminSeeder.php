@@ -14,6 +14,43 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
+
+        // Tambahkan guru dari daftar nama
+        $names = [
+            "Mas'ah",
+            "Indahyani Tawakkal",
+            "Risky Inesa",
+            "Mulyati",
+            "Riska",
+            "Muh. Musyawwir",
+            "St. Nurhalisa",
+            "Sri Sundari Rasyid",
+            "Arifuddin",
+            "Savira D. Salsabella",
+            "Nur Fadilah Putri"
+        ];
+
+        foreach ($names as $name) {
+            $username = strtolower(Str::slug($name));
+            $nuptk = str_pad(random_int(1000000000, 9999999999), 10, '0', STR_PAD_LEFT);
+            $hashedPassword = bcrypt('user123');
+
+            User::create([
+                'name' => $name,
+                'username' => $username,
+                'password' => $hashedPassword,
+                'nuptk' => $nuptk,
+                'role' => 'user',
+            ]);
+
+            Admin::create([
+                'name' => $name,
+                'username' => $username,
+                'password' => $hashedPassword,
+                'nuptk' => $nuptk,
+                'role' => 'user',
+            ]);
+        }
         $akun = [
             [
                 'name' => 'Administrator',
@@ -54,41 +91,6 @@ class AdminSeeder extends Seeder
             ]);
         }
 
-        // Tambahkan guru dari daftar nama
-        $names = [
-            "Mas'ah",
-            "Indahyani Tawakkal",
-            "Risky Inesa",
-            "Mulyati",
-            "Riska",
-            "Muh. Musyawwir",
-            "St. Nurhalisa",
-            "Sri Sundari Rasyid",
-            "Arifuddin",
-            "Savira D. Salsabella",
-            "Nur Fadilah Putri"
-        ];
 
-        foreach ($names as $name) {
-            $username = strtolower(Str::slug($name));
-            $nuptk = str_pad(random_int(1000000000, 9999999999), 10, '0', STR_PAD_LEFT);
-            $hashedPassword = bcrypt('user123');
-
-            User::create([
-                'name' => $name,
-                'username' => $username,
-                'password' => $hashedPassword,
-                'nuptk' => $nuptk,
-                'role' => 'user',
-            ]);
-
-            Admin::create([
-                'name' => $name,
-                'username' => $username,
-                'password' => $hashedPassword,
-                'nuptk' => $nuptk,
-                'role' => 'user',
-            ]);
-        }
     }
 }

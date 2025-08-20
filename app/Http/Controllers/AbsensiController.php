@@ -29,7 +29,10 @@ class AbsensiController extends Controller
     public function create()
     {
         $menu = $this->menu;
-        $agendas = Agenda::where('status', 'publish')->get();
+        $agendas = Agenda::where('status', 'publish')
+            ->latest()
+            ->take(1)
+            ->get();
         $users = User::where('role', 'user')->get();
         return view('pages.admin.absensi.create', compact('users', 'agendas', 'menu'));
     }

@@ -10,12 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('mapels', function (Blueprint $table) {
+        Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
-            // $table->string('user_id');
-            $table->string('nama');
-            $table->enum('kelompok_kelas', ['1-2', '1-6', '1-3', '3-6', '4B', '5B', '6B']);
-            // $table->string('status'); // terinput atau tidak
+            $table->string('user_id');
+            $table->string('mapel_id');
+            $table->date('tanggal');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->enum('keterangan', ['ya', 'tidak'])->default('tidak');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('mapels');
+        Schema::dropIfExists('jadwals');
     }
 };

@@ -203,6 +203,16 @@ Route::group(
                 Route::post('/hapus/{id}', 'AbsensiController@destroy')->name('absensi.hapus');
             });
 
+            // Jadwal
+            Route::prefix('jadwal')->group(function () {
+                Route::get('/', 'JadwalController@index')->name('jadwal.index');
+                Route::get('/create', 'JadwalController@create')->name('jadwal.create');
+                Route::post('/store', 'JadwalController@store')->name('jadwal.store');
+                Route::get('/edit/{id}', 'JadwalController@edit')->name('jadwal.edit');
+                Route::put('/update', 'JadwalController@update')->name('jadwal.update');
+                Route::post('/hapus/{id}', 'JadwalController@destroy')->name('jadwal.hapus');
+            });
+
             // Tema
             Route::prefix('tema')->group(function () {
                 Route::get('/', 'TemaController@index')->name('tema.index');

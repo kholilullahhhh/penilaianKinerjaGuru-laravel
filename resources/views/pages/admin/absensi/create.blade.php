@@ -25,8 +25,7 @@
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Agenda Rapat</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <select name="agenda_id" class="form-control select2" required>
-                                                <option value="">Pilih Agenda</option>
+                                            <select name="agenda_id" class="form-control" required>
                                                 @foreach($agendas as $agenda)
                                                     <option value="{{ $agenda->id }}">
                                                         {{ $agenda->judul }} ({{ $agenda->tgl_kegiatan }})
