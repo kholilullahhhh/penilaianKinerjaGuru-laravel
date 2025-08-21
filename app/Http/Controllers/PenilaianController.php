@@ -108,7 +108,7 @@ class PenilaianController extends Controller
 
         // 2. Hitung Ketepatan Waktu
         $tepatWaktu = $this->getTepatWaktu($user_id, $startDate, $endDate);
-        $ketepatanWaktu = ($hariKerja > 0) ? ($tepatWaktu / $hariKerja) * 100 : 0;
+        $ketepatanWaktu = ($jumlahHadir > 0) ? ($tepatWaktu / $jumlahHadir) * 100 : 0;
 
         // 3. Hitung Jam Mengajar
         $jamTerlaksana = $this->getJamTerlaksana($user_id, $startDate, $endDate);
@@ -116,7 +116,7 @@ class PenilaianController extends Controller
         $jamMengajar = ($jamMaksimal > 0) ? ($jamTerlaksana / $jamMaksimal) * 100 : 0;
 
         // 4. Pengisian Nilai (diasumsikan selalu Ya/100 berdasarkan dokumen)
-        $pengisianNilai = 100;
+        $pengisianNilai = $this->getPengisianNilai($user_id, $startDate, $endDate);
 
         // 5. Kehadiran Rapat
         $jumlahRapat = $this->getJumlahRapat($startDate, $endDate);
@@ -189,10 +189,9 @@ class PenilaianController extends Controller
      */
     private function getJumlahHadir($user_id, $startDate, $endDate)
     {
-        // Implementasi query untuk menghitung jumlah kehadiran
-        // Contoh: hitung berdasarkan jadwal yang terlaksana
-        return Jadwal::where('user_id', $user_id)
+        return Jadwal::where('user_id', operator: $user_id)
             ->whereBetween('tanggal', [$startDate, $endDate])
+            ->where('keterangan', 'ya') // Hanya jadwal yang terlaksana
             ->count();
     }
 
@@ -201,10 +200,12 @@ class PenilaianController extends Controller
      */
     private function getTepatWaktu($user_id, $startDate, $endDate)
     {
-        // Jika tidak ada kolom jam_seharusnya, gunakan logika alternatif
+        // Asumsikan ada kolom 'terlambat' di tabel jadwal
         return Jadwal::where('user_id', $user_id)
             ->whereBetween('tanggal', [$startDate, $endDate])
-            ->count(); // Sementara asumsikan semua tepat waktu
+            ->where('keterangan', 'ya')
+            // ->where('terlambat', 0) // Tidak terlambat
+            ->count();
     }
 
     /**
@@ -212,9 +213,9 @@ class PenilaianController extends Controller
      */
     private function getJamTerlaksana($user_id, $startDate, $endDate)
     {
-        // Implementasi query untuk menghitung jam mengajar
         $totalJam = Jadwal::where('user_id', $user_id)
             ->whereBetween('tanggal', [$startDate, $endDate])
+            ->where('keterangan', 'ya')
             ->sum(DB::raw('TIME_TO_SEC(TIMEDIFF(jam_selesai, jam_mulai)) / 3600'));
 
         return round($totalJam, 2);
@@ -225,11 +226,38 @@ class PenilaianController extends Controller
      */
     private function getJamMaksimal($user_id, $bulan)
     {
-        // Jika tidak ada kolom jam_seharusnya, gunakan estimasi
         $hariKerja = $this->getHariKerja($bulan);
 
-        // Asumsi rata-rata 6 jam per hari
-        return $hariKerja * 6;
+        // Dapatkan jam mengajar yang dijadwalkan
+        $startDate = Carbon::parse($bulan)->startOfMonth();
+        $endDate = Carbon::parse($bulan)->endOfMonth();
+
+        $jamTerjadwal = Jadwal::where('user_id', $user_id)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->sum(DB::raw('TIME_TO_SEC(TIMEDIFF(jam_selesai, jam_mulai)) / 3600'));
+
+        return max($hariKerja * 6, $jamTerjadwal); // Ambil nilai maksimal antara estimasi dan jadwal
+    }
+
+    /**
+     * Mendapatkan persentase pengisian nilai
+     */
+    private function getPengisianNilai($user_id, $startDate, $endDate)
+    {
+        // Implementasi logika pengisian nilai
+        // Ini adalah contoh sederhana, sesuaikan dengan kebutuhan
+        $totalJadwal = Jadwal::where('user_id', $user_id)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->where('keterangan', 'ya')
+            ->count();
+
+        $jadwalTerenilai = Jadwal::where('user_id', $user_id)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->where('keterangan', 'ya')
+            // ->where('terenilai', 1) // Asumsikan ada kolom untuk menandai sudah dinilai
+            ->count();
+
+        return ($totalJadwal > 0) ? ($jadwalTerenilai / $totalJadwal) * 100 : 100;
     }
 
     /**
@@ -238,6 +266,7 @@ class PenilaianController extends Controller
     private function getJumlahRapat($startDate, $endDate)
     {
         return Agenda::whereBetween('tgl_kegiatan', [$startDate, $endDate])
+            // ->where('jenis_kegiatan', 'rapat') // Hitung hanya rapat
             ->count();
     }
 
