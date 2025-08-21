@@ -35,7 +35,7 @@
                                                 <th>Tanggal</th>
                                                 <th>Jam Mulai</th>
                                                 <th>Jam Selesai</th>
-                                                <th>Keterangan</th>
+                                                <th>Input Nilai</th>
 
                                                 <th>Action</th>
                                             </tr>
@@ -51,23 +51,23 @@
                                                     <td>{{ $data->jam_selesai }}</td>
                                                     <td>
                                                         @if($data->keterangan == 'ya')
-                                                            <span class="badge badge-success">Aktif</span>
+                                                            <span class="badge badge-success">Masuk</span>
                                                         @else
-                                                            <span class="badge badge-secondary">Tidak Aktif</span>
+                                                            <span class="badge badge-secondary">Tidak Masuk</span>
                                                         @endif
                                                     </td>
 
                                                     <td>
-                                                        <a href="{{ route('jadwal.edit', $data->id) }}"
-                                                            class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a href="{{ route('user.jadwal.edit', $data->id) }}"
+                                                            class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Absen</a>
                                                         @if (session('role') == 'admin')
 
-                                                                <button onclick="deleteData({{ $data->id }}, 'jadwal')"
-                                                                    class="btn btn-danger btn-sm" title="Hapus">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </button>
-                                                                @endif
-                                                            </td>
+                                                            <button onclick="deleteData({{ $data->id }}, 'jadwal')"
+                                                                class="btn btn-danger btn-sm" title="Hapus">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

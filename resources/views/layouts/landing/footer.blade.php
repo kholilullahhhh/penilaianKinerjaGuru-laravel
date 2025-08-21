@@ -29,7 +29,7 @@
                                 90511
                             </li>
                             <li>08898988988 </li>
-                            <li>rpphsulsel@gmail.com </li>
+                            <li>sdibontoala1@gmail.com </li>
                         </ul>
                     </div>
                 </div><!-- Col end -->
@@ -70,7 +70,7 @@
                         <span style="color:#fff">Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script>, RPPH Provinsi Sulawesi Selatan
+                            </script>, Luluuu
                         </span>
                     </div>
                 </div>

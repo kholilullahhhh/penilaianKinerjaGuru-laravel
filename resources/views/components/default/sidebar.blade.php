@@ -17,7 +17,8 @@
             </li>
 
             @if (session('role') == 'admin')
-                <li class="nav-item dropdown {{ ($menu == 'pegawai' || $menu == 'agenda' || $menu == 'jadwal') ? 'active' : '' }}">
+                <li
+                    class="nav-item dropdown {{ ($menu == 'pegawai' || $menu == 'agenda' || $menu == 'jadwal') ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-sitemap"></i>
                         <span>Master Data</span>
                     </a>
@@ -29,40 +30,28 @@
                         </li>
                         <li class="{{ $menu == 'agenda' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('agenda.index') }}">
-                                Data Agenda Rapat
+                                Data Jadwal Rapat
                             </a>
                         </li>
                         <li class="{{ $menu == 'jadwal' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('jadwal.index') }}">
-                                Data Jam Mengajar
+                                Data Jam Mengajar Guru
                             </a>
                         </li>
                     </ul>
                 </li>
 
 
-                <li class="nav-item dropdown {{ $menu == 'indikator' || $menu == 'penilaian_kinerja' ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-inbox"></i>
-                        <span>Data Indikator</span></a>
-                    <ul class="dropdown-menu">
 
-                        <li class="{{ $menu == 'indikator' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('indikator.index') }}">
-                                Data Indikator
-                            </a>
-                        </li>
-                        <li class="{{ $menu == 'penilaian_kinerja' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('penilaian_kinerja.index') }}">
-                                Data Penilaian
-                            </a>
-                        </li>
-
-                    </ul>
+                <li class="{{ $menu == 'penilaian_kinerja' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('penilaian_kinerja.index') }}">
+                        <i class="fas fa-wallet"></i> <span>Data Laporan Kinerja</span>
+                    </a>
                 </li>
 
                 <li class="{{ $menu == 'absensi' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('absensi.index') }}">
-                        <i class="fas fa-wallet"></i> <span>Data Absensi</span>
+                        <i class="fas fa-wallet"></i> <span>Data Absen Rapat</span>
                     </a>
                 </li>
 
@@ -81,7 +70,23 @@
 
                 <li class="{{ $menu == 'absensi' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('user.absensi.index') }}">
-                        <i class="fas fa-wallet"></i> <span>Data Absensi</span>
+                        <i class="fas fa-wallet"></i> <span>Data Absen Rapat</span>
+                    </a>
+                </li>
+                <li class="{{ $menu == 'jadwal' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('user.jadwal.index') }}">
+                        <i class="fas fa-wallet"></i> <span>Data Jadwal Mengajar</span>
+                    </a>
+                </li>
+                <li class="menu-header">Landing Page</li>
+
+            @endif
+
+            @if (session('role') == 'kepala_sekolah')
+
+                <li class="{{ $menu == 'penilaian_kinerja' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('penilaian_kinerja.index') }}">
+                        <i class="fas fa-wallet"></i> <span>Laporan Kinerja</span>
                     </a>
                 </li>
                 <li class="menu-header">Landing Page</li>

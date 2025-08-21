@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AbsenController;
+use App\Http\Controllers\User\JadwalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -201,13 +202,30 @@ Route::group(
                 Route::get('/edit/{id}', 'JadwalController@edit')->name('jadwal.edit');
                 Route::put('/update', 'JadwalController@update')->name('jadwal.update');
                 Route::post('/hapus/{id}', 'JadwalController@destroy')->name('jadwal.hapus');
+
+
+
             });
 
+            Route::prefix('jdwl')->group(function () {
+
+                //User jadwal mengajar
+                Route::get('/', [JadwalController::class, 'index'])->name('user.jadwal.index');
+                Route::get('/edit/{id}', [JadwalController::class, 'edit'])->name('user.jadwal.edit');
+                Route::put('/store', [JadwalController::class, 'update'])->name('user.jadwal.update');
+            });
+
+
+
             Route::prefix('user')->group(function () {
+                //absensi
                 Route::get('/', [AbsenController::class, 'userIndex'])->name('user.absensi.index');
                 Route::get('/create', [AbsenController::class, 'userCreate'])->name('user.absensi.create');
                 Route::post('/store', [AbsenController::class, 'userStore'])->name('user.absensi.store');
+
+
             });
+
 
 
         });

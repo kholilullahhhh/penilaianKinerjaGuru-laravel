@@ -29,7 +29,6 @@
                                             <select name="agenda_id"
                                                 class="form-control select2 @error('agenda_id') is-invalid @enderror"
                                                 required>
-                                                <option value="">Pilih Agenda</option>
                                                 @foreach($agendas as $agenda)
                                                     <option value="{{ $agenda->id }}" {{ old('agenda_id') == $agenda->id ? 'selected' : '' }}>
                                                         {{ $agenda->judul }} ({{ $agenda->tgl_kegiatan }})
