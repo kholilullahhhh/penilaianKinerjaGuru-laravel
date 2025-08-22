@@ -62,12 +62,12 @@
                                                             class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                                         @if (session('role') == 'admin')
 
-                                                                <button onclick="deleteData({{ $data->id }}, 'jadwal')"
-                                                                    class="btn btn-danger btn-sm" title="Hapus">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </button>
-                                                                @endif
-                                                            </td>
+                                                            <button onclick="deleteData({{ $data->id }}, 'jadwal')"
+                                                                class="btn btn-danger btn-sm" title="Hapus">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -88,19 +88,19 @@
         <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
 
         <script type="text/javascript">
-            $(document).ready(function () {
                 $('#table-jadwal').DataTable({
                     paging: true,
-                    searching: true,
+                searching: true,
+                order: [[6, 'asc']], // urut berdasarkan kolom Tanggal Absensi (index ke-6 dari <th>)
                     language: {
                         url: 'https://cdn.datatables.net/plug-ins/2.1.0/i18n/id.json',
-                    },
+                        },
                     columnDefs: [
-                        { orderable: false, targets: [7] }, // Disable sorting for action column
-                        { searchable: false, targets: [0, 7] } // Disable searching for # and action columns
+                    {orderable: false, targets: [7] }, // kolom Action tidak bisa sort
+                    {searchable: false, targets: [0, 7] } // kolom # dan Action tidak bisa search
                     ]
-                });
-            });
+                    });
+        </script>
         </script>
     @endpush
 @endsection

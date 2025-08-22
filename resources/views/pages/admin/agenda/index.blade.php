@@ -10,11 +10,11 @@
             }
         </style>
     @endpush
-
+ 
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Agenda Rapat</h1>
+                <h1>Data Jadwal Rapat</h1>
             </div>
 
             <div class="section-body">

@@ -13,6 +13,7 @@ class Admin extends Model
         'nuptk',
         'username',
         'password',
+        'jabatan',
         'role'
     ];
 }

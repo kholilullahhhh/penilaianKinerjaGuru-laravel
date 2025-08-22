@@ -21,69 +21,368 @@ class JadwalSeeder extends Seeder
         // KELAS 1-2 (Wali 4 JP/hari)
         // ========================
         $jadwals[] = [
-            'user_id' => 1, // wali kelas 1
+            'user_id' => 1, // wali kelas 1A
             'mapel_id' => 1, // contoh: Gowa Angngaji
             'tanggal' => $today,
             'jam_mulai' => '07:30:00',
-            'jam_selesai' => '09:10:00', // 4 JP
+            'jam_selesai' => '08:10:00', // 4 JP
+            'keterangan' => 'ya'
+        ];
+        $jadwals[] = [
+            'user_id' => 1, // wali kelas 1
+            'mapel_id' => 2,
+            'tanggal' => $today,
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
+            'keterangan' => 'ya'
+        ];
+        $jadwals[] = [
+            'user_id' => 1, // wali kelas 1
+            'mapel_id' => 3,
+            'tanggal' => $today,
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
+            'keterangan' => 'ya'
+        ];
+
+        $jadwals[] = [
+            'user_id' => 1, // wali kelas 1A
+            'mapel_id' => 4, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
+            'keterangan' => 'ya'
+        ];
+
+        //1C
+        $jadwals[] = [
+            'user_id' => 2, // wali kelas 11C
+            'mapel_id' => 1, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '07:30:00',
+            'jam_selesai' => '08:10:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 2, // wali kelas 1C
+            'mapel_id' => 2,
+            'tanggal' => $today,
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 2, // wali kelas 1C
+            'mapel_id' => 3,
+            'tanggal' => $today,
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
             'keterangan' => 'tidak'
         ];
 
         $jadwals[] = [
-            'user_id' => 2, // wali kelas 2
-            'mapel_id' => 2, // contoh: Bahasa Indonesia
+            'user_id' => 2, // wali kelas 11C
+            'mapel_id' => 4, // contoh: Gowa Angngaji
             'tanggal' => $today,
-            'jam_mulai' => '07:30:00',
-            'jam_selesai' => '09:10:00',
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
             'keterangan' => 'tidak'
         ];
 
-        // ========================
-        // KELAS 3-6 (Wali 5-6 JP/hari)
-        // ========================
+        //2C
         $jadwals[] = [
-            'user_id' => 3, // wali kelas 3
-            'mapel_id' => 3, // contoh: Matematika
+            'user_id' => 3, // wali kelas 11C
+            'mapel_id' => 1, // contoh: Gowa Angngaji
             'tanggal' => $today,
             'jam_mulai' => '07:30:00',
-            'jam_selesai' => '09:55:00', // 5 JP
+            'jam_selesai' => '08:10:00', // 4 JP
             'keterangan' => 'tidak'
         ];
-
         $jadwals[] = [
-            'user_id' => 4, // wali kelas 4
-            'mapel_id' => 4,
+            'user_id' => 3, // wali kelas 1C
+            'mapel_id' => 2,
             'tanggal' => $today,
-            'jam_mulai' => '07:30:00',
-            'jam_selesai' => '10:40:00', // 6 JP
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
             'keterangan' => 'tidak'
         ];
-
         $jadwals[] = [
-            'user_id' => 5, // wali kelas 5
-            'mapel_id' => 5,
+            'user_id' => 3, // wali kelas 1C
+            'mapel_id' => 3,
             'tanggal' => $today,
-            'jam_mulai' => '07:30:00',
-            'jam_selesai' => '10:40:00',
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
             'keterangan' => 'tidak'
         ];
 
         $jadwals[] = [
-            'user_id' => 6, // wali kelas 6
-            'mapel_id' => 6,
+            'user_id' => 3, // wali kelas 11C
+            'mapel_id' => 4, // contoh: Gowa Angngaji
             'tanggal' => $today,
-            'jam_mulai' => '07:30:00',
-            'jam_selesai' => '10:40:00',
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
             'keterangan' => 'tidak'
         ];
+
+        //3A
+        $jadwals[] = [
+            'user_id' => 4, // wali kelas 11C
+            'mapel_id' => 1, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '07:30:00',
+            'jam_selesai' => '08:10:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 4, // wali kelas 1C
+            'mapel_id' => 2,
+            'tanggal' => $today,
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 4, // wali kelas 1C
+            'mapel_id' => 3,
+            'tanggal' => $today,
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        $jadwals[] = [
+            'user_id' => 4, // wali kelas 11C
+            'mapel_id' => 4, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 4, // wali kelas 11C
+            'mapel_id' => 5, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '11:20:00',
+            'jam_selesai' => '12:00:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        //3C
+        $jadwals[] = [
+            'user_id' => 5, // wali kelas 11C
+            'mapel_id' => 1, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '07:30:00',
+            'jam_selesai' => '08:10:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 5, // wali kelas 1C
+            'mapel_id' => 2,
+            'tanggal' => $today,
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 5, // wali kelas 1C
+            'mapel_id' => 3,
+            'tanggal' => $today,
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        $jadwals[] = [
+            'user_id' => 5, // wali kelas 11C
+            'mapel_id' => 4, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 5, // wali kelas 11C
+            'mapel_id' => 5, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '11:20:00',
+            'jam_selesai' => '12:00:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        //4B
+        $jadwals[] = [
+            'user_id' => 6, // wali kelas 11C
+            'mapel_id' => 1, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '07:30:00',
+            'jam_selesai' => '08:10:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 6, // wali kelas 1C
+            'mapel_id' => 2,
+            'tanggal' => $today,
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 6, // wali kelas 1C
+            'mapel_id' => 3,
+            'tanggal' => $today,
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        $jadwals[] = [
+            'user_id' => 6, // wali kelas 11C
+            'mapel_id' => 4, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 6, // wali kelas 11C
+            'mapel_id' => 5, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '11:20:00',
+            'jam_selesai' => '12:00:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 6, // wali kelas 11C
+            'mapel_id' => 6, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '13:00:00',
+            'jam_selesai' => '13:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        //5B
+        $jadwals[] = [
+            'user_id' => 7, // wali kelas 11C
+            'mapel_id' => 1, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '07:30:00',
+            'jam_selesai' => '08:10:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 7, // wali kelas 1C
+            'mapel_id' => 2,
+            'tanggal' => $today,
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 7, // wali kelas 1C
+            'mapel_id' => 3,
+            'tanggal' => $today,
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        $jadwals[] = [
+            'user_id' => 7, // wali kelas 11C
+            'mapel_id' => 4, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 7, // wali kelas 11C
+            'mapel_id' => 5, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '11:20:00',
+            'jam_selesai' => '12:00:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 7, // wali kelas 11C
+            'mapel_id' => 6, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '13:00:00',
+            'jam_selesai' => '13:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        //6B
+        $jadwals[] = [
+            'user_id' => 8, // wali kelas 11C
+            'mapel_id' => 1, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '07:30:00',
+            'jam_selesai' => '08:10:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 8, // wali kelas 1C
+            'mapel_id' => 2,
+            'tanggal' => $today,
+            'jam_mulai' => '08:10:00',
+            'jam_selesai' => '08:50:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 8, // wali kelas 1C
+            'mapel_id' => 3,
+            'tanggal' => $today,
+            'jam_mulai' => '10:00:00',
+            'jam_selesai' => '10:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+        $jadwals[] = [
+            'user_id' => 8, // wali kelas 11C
+            'mapel_id' => 4, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '10:40:00',
+            'jam_selesai' => '11:20:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 8, // wali kelas 11C
+            'mapel_id' => 5, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '11:20:00',
+            'jam_selesai' => '12:00:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+        $jadwals[] = [
+            'user_id' => 8, // wali kelas 11C
+            'mapel_id' => 6, // contoh: Gowa Angngaji
+            'tanggal' => $today,
+            'jam_mulai' => '13:00:00',
+            'jam_selesai' => '13:40:00', // 4 JP
+            'keterangan' => 'tidak'
+        ];
+
+
 
         // ========================
         // MAPEL TAMBAHAN (2 JP/kelas)
         // ========================
         $mapelTambahan = [
-            ['user_id' => 7, 'mapel_id' => 7, 'nama' => 'Mulok'],
-            ['user_id' => 8, 'mapel_id' => 8, 'nama' => 'SBDP'],
-            ['user_id' => 9, 'mapel_id' => 9, 'nama' => 'IPAS'], // hanya kelas 3-6
+            ['user_id' => 9, 'mapel_id' => 7, 'nama' => 'PJOK'],
+            ['user_id' => 9, 'mapel_id' => 7, 'nama' => 'PJOK'],
+            ['user_id' => 9, 'mapel_id' => 7, 'nama' => 'PJOK'],
+
+            ['user_id' => 10, 'mapel_id' => 8, 'nama' => 'PJOK'],
+            ['user_id' => 10, 'mapel_id' => 8, 'nama' => 'PJOK'],
+            ['user_id' => 10, 'mapel_id' => 8, 'nama' => 'PJOK'],
+
+            ['user_id' => 11, 'mapel_id' => 9, 'nama' => 'PAI'],
+            ['user_id' => 11, 'mapel_id' => 9, 'nama' => 'PAI'],
+            ['user_id' => 11, 'mapel_id' => 9, 'nama' => 'PAI'],
+            ['user_id' => 11, 'mapel_id' => 9, 'nama' => 'PAI'],
+            ['user_id' => 11, 'mapel_id' => 9, 'nama' => 'PAI'],
+            ['user_id' => 11, 'mapel_id' => 9, 'nama' => 'PAI'],
         ];
 
         $start = Carbon::createFromTime(11, 00, 0); // mulai setelah wali kelas

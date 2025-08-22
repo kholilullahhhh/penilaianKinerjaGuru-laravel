@@ -95,18 +95,17 @@
         <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
 
         <script type="text/javascript">
-            $(document).ready(function() {
-                $('#table-absensi').DataTable({
-                    paging: true,
-                    searching: true,
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/2.1.0/i18n/id.json',
-                    },
-                    columnDefs: [
-                        { orderable: false, targets: [6] }, // Disable sorting for action column
-                        { searchable: false, targets: [0, 6] } // Disable searching for # and action columns
-                    ]
-                });
+            $('#table-absensi').DataTable({
+                paging: true,
+                searching: true,
+                order: [[6, 'asc']], // urut berdasarkan kolom Tanggal Absensi (index ke-6 dari <th>)
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/2.1.0/i18n/id.json',
+                },
+                columnDefs: [
+                    { orderable: false, targets: [7] }, // kolom Action tidak bisa sort
+                    { searchable: false, targets: [0, 7] } // kolom # dan Action tidak bisa search
+                ]
             });
         </script>
     @endpush

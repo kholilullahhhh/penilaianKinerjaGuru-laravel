@@ -7,7 +7,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Edit Data Jadwal</h1>
+                <h1>Input Nilai</h1>
             </div>
 
                 {{-- Jika Bukan Admin → Hanya detail (tidak bisa edit) --}}
@@ -21,7 +21,7 @@
 
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Detail Jadwal</h4>
+                                        <h4>Form Input Nilai</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group row mb-4">
@@ -84,7 +84,7 @@
                                         <div class="form-group row mb-4">
                                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                             <div class="col-sm-12 col-md-7">
-                                                <button type="submit" class="btn btn-primary">Update Jadwal</button>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{ route('user.jadwal.index') }}" class="btn btn-warning">Kembali</a>
                                             </div>
                                         </div>

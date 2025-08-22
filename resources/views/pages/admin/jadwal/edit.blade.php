@@ -75,7 +75,7 @@
                                         </div>
 
                                         <div class="form-group row mb-4">
-                                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Keterangan</label>
+                                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Input Nilai </label>
                                             <div class="col-sm-12 col-md-7">
                                                 <select name="keterangan" class="form-control" required>
                                                     <option value="ya" {{ $data->keterangan == 'ya' ? 'selected' : '' }}>Masuk</option>
@@ -160,7 +160,7 @@
                                         </div>
 
                                         <div class="form-group row mb-4">
-                                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Keterangan</label>
+                                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Input Nilai</label>
                                             <div class="col-sm-12 col-md-7">
                                                 <select name='keterangan' class="form-control">
                                                     <option value="ya" {{ $data->keterangan == 'ya' ? 'selected' : '' }}>Masuk</option>

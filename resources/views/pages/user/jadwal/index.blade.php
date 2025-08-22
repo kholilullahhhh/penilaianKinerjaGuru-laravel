@@ -9,7 +9,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Jadwal</h1>
+                <h1>Data Input Nilai</h1>
             </div>
 
             <div class="section-body">
@@ -59,7 +59,8 @@
 
                                                     <td>
                                                         <a href="{{ route('user.jadwal.edit', $data->id) }}"
-                                                            class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Absen</a>
+                                                            class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Input
+                                                            Nilai</a>
                                                         @if (session('role') == 'admin')
 
                                                             <button onclick="deleteData({{ $data->id }}, 'jadwal')"

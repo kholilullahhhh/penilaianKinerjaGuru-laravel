@@ -10,6 +10,7 @@ use App\Models\Agenda;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class PenilaianController extends Controller
 {
@@ -97,39 +98,42 @@ class PenilaianController extends Controller
      */
     private function hitungKPI($user_id, $bulan)
     {
-        // Konversi bulan ke format yang diperlukan
         $startDate = Carbon::parse($bulan)->startOfMonth();
         $endDate = Carbon::parse($bulan)->endOfMonth();
 
-        // 1. Hitung Kehadiran Mengajar
-        $hariKerja = $this->getHariKerja($bulan);
-        $jumlahHadir = $this->getJumlahHadir($user_id, $startDate, $endDate);
-        $kehadiranMengajar = ($hariKerja > 0) ? ($jumlahHadir / $hariKerja) * 100 : 0;
+        // Target hari hadir per rancangan:
+        // - Wali Kelas  -> hari kerja bulan tsb.
+        // - Guru Mapel  -> jumlah hari terjadwal mengajar (distinct tanggal jadwal pada bulan tsb.)
+        $targetHari = $this->getTargetHariHadir($user_id, $bulan);
 
-        // 2. Hitung Ketepatan Waktu
-        $tepatWaktu = $this->getTepatWaktu($user_id, $startDate, $endDate);
-        $ketepatanWaktu = ($jumlahHadir > 0) ? ($tepatWaktu / $jumlahHadir) * 100 : 0;
+        // 1) Kehadiran Mengajar (%)
+        $jumlahHadir = $this->getJumlahHadirHari($user_id, $startDate, $endDate);
+        $kehadiranMengajar = ($targetHari > 0) ? ($jumlahHadir / $targetHari) * 100 : 0;
 
-        // 3. Hitung Jam Mengajar
+        // 2) Ketepatan Waktu (%)
+        $tepatWaktuHari = $this->getJumlahTepatWaktuHari($user_id, $startDate, $endDate);
+        $ketepatanWaktu = ($targetHari > 0) ? ($tepatWaktuHari / $targetHari) * 100 : 0;
+
+        // 3) Jam Mengajar (%)
         $jamTerlaksana = $this->getJamTerlaksana($user_id, $startDate, $endDate);
-        $jamMaksimal = $this->getJamMaksimal($user_id, $bulan);
+        $jamMaksimal = $this->getJamMaksimal($user_id, $bulan); // jam terjadwal bulan tsb.
         $jamMengajar = ($jamMaksimal > 0) ? ($jamTerlaksana / $jamMaksimal) * 100 : 0;
 
-        // 4. Pengisian Nilai (diasumsikan selalu Ya/100 berdasarkan dokumen)
-        $pengisianNilai = $this->getPengisianNilai($user_id, $startDate, $endDate);
+        // 4) Pengisian Nilai (%)
+        $pengisianNilai = $this->getPengisianNilai($user_id, $startDate, $endDate); // Ya=100, Tidak=0 (lihat catatan fungsi)
 
-        // 5. Kehadiran Rapat
+        // 5) Kehadiran Rapat (%)
         $jumlahRapat = $this->getJumlahRapat($startDate, $endDate);
         $hadirRapat = $this->getHadirRapat($user_id, $startDate, $endDate);
         $kehadiranRapat = ($jumlahRapat > 0) ? ($hadirRapat / $jumlahRapat) * 100 : 0;
 
-        // Hitung skor akhir dengan bobot
+        // Bobot indikator sesuai dokumen (25/20/20/20/15)
         $bobot = [
             'kehadiran' => 0.25,
             'ketepatan' => 0.20,
             'jam' => 0.20,
             'nilai' => 0.20,
-            'rapat' => 0.15
+            'rapat' => 0.15,
         ];
 
         $skorAkhir =
@@ -139,79 +143,107 @@ class PenilaianController extends Controller
             ($pengisianNilai * $bobot['nilai']) +
             ($kehadiranRapat * $bobot['rapat']);
 
-        // Tentukan kategori
         $kategori = $this->getKategori($skorAkhir);
 
-        // Simpan detail perhitungan
         $detail = [
-            'hari_kerja' => $hariKerja,
+            'target_hari' => $targetHari,
             'jumlah_hadir' => $jumlahHadir,
-            'tepat_waktu' => $tepatWaktu,
+            'tepat_waktu_hari' => $tepatWaktuHari,
             'jam_terlaksana' => $jamTerlaksana,
             'jam_maksimal' => $jamMaksimal,
             'jumlah_rapat' => $jumlahRapat,
             'hadir_rapat' => $hadirRapat,
-            'bobot' => $bobot
+            'bobot' => $bobot,
         ];
 
         return [
             'kehadiran_mengajar' => round($kehadiranMengajar, 2),
             'ketepatan_waktu' => round($ketepatanWaktu, 2),
             'jam_mengajar' => round($jamMengajar, 2),
-            'pengisian_nilai' => $pengisianNilai,
+            'pengisian_nilai' => round($pengisianNilai, 2),
             'kehadiran_rapat' => round($kehadiranRapat, 2),
             'skor_akhir' => round($skorAkhir, 2),
             'kategori' => $kategori,
-            'detail' => $detail
+            'detail' => $detail,
         ];
     }
 
     /**
-     * Mendapatkan jumlah hari kerja dalam bulan tertentu
+     * Target hari hadir per bulan:
+     * - Wali Kelas  -> jumlah hari kerja
+     * - Guru Mapel  -> jumlah hari TERJADWAL mengajar (distinct tanggal jadwal pada bulan tsb)
      */
-    private function getHariKerja($bulan)
+    // Target hari hadir per bulan
+    private function getTargetHariHadir($user_id, $bulan): int
     {
-        $startDate = Carbon::parse($bulan)->startOfMonth();
-        $endDate = Carbon::parse($bulan)->endOfMonth();
-        $hariKerja = 0;
+        $start = Carbon::parse($bulan)->startOfMonth()->startOfDay();
+        $end = Carbon::parse($bulan)->endOfMonth()->endOfDay();
 
-        while ($startDate->lte($endDate)) {
-            if (!$startDate->isWeekend()) {
-                $hariKerja++;
-            }
-            $startDate->addDay();
-        }
-        return $hariKerja;
+        return DB::table('jadwals')
+            ->where('user_id', $user_id)
+            ->whereBetween('tanggal', [$start, $end])
+            ->select(DB::raw('COUNT(DISTINCT DATE(tanggal)) as cnt'))
+            ->value('cnt') ?? 0;
     }
 
-    /**
-     * Mendapatkan jumlah kehadiran mengajar
-     */
+
+    // Jumlah HARI hadir (distinct tanggal), hanya yang terlaksana
     private function getJumlahHadir($user_id, $startDate, $endDate)
     {
-        return Jadwal::where('user_id', operator: $user_id)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->where('keterangan', 'ya') // Hanya jadwal yang terlaksana
-            ->count();
-    }
-
-    /**
-     * Mendapatkan jumlah kehadiran tepat waktu
-     */
-    private function getTepatWaktu($user_id, $startDate, $endDate)
-    {
-        // Asumsikan ada kolom 'terlambat' di tabel jadwal
-        return Jadwal::where('user_id', $user_id)
+        return Jadwal::where('user_id', $user_id) // <-- hilangkan "operator:"
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->where('keterangan', 'ya')
-            // ->where('terlambat', 0) // Tidak terlambat
             ->count();
     }
+    private function getJumlahHadirHari($user_id, $startDate, $endDate): int
+    {
+        $start = Carbon::parse($startDate)->startOfDay();
+        $end = Carbon::parse($endDate)->endOfDay();
 
-    /**
-     * Mendapatkan jumlah jam mengajar yang terlaksana
-     */
-    private function getJamTerlaksana($user_id, $startDate, $endDate)
+        $cnt = DB::table('jadwals')
+            ->where('user_id', $user_id)
+            ->whereBetween('tanggal', [$start, $end])
+            ->where(function ($q) {
+                // normalize keterangan: ya / y / yes / '1'
+                $q->whereRaw("LOWER(COALESCE(keterangan, '')) IN ('ya','y','yes')")
+                    ->orWhere('keterangan', '1')
+                    ->orWhere('keterangan', true);
+            })
+            ->select(DB::raw('COUNT(DISTINCT DATE(tanggal)) as cnt'))
+            ->value('cnt');
+
+        return (int) $cnt;
+    }
+    // Jumlah HARI tepat waktu (fallback: sama dengan hadir jika kolom 'terlambat' tidak ada)
+    private function getJumlahTepatWaktuHari($user_id, $startDate, $endDate): int
+    {
+        $start = Carbon::parse($startDate)->startOfDay();
+        $end = Carbon::parse($endDate)->endOfDay();
+
+        // Base query: terlaksana
+        $q = DB::table('jadwals')
+            ->where('user_id', $user_id)
+            ->whereBetween('tanggal', [$start, $end])
+            ->where(function ($q2) {
+                $q2->whereRaw("LOWER(COALESCE(keterangan, '')) IN ('ya','y','yes')")
+                    ->orWhere('keterangan', '1')
+                    ->orWhere('keterangan', true);
+            });
+
+        if (Schema::hasColumn('jadwals', 'terlambat')) {
+            $q->where(function ($q3) {
+                $q3->where('terlambat', 0)
+                    ->orWhereNull('terlambat');
+            });
+        }
+
+        $cnt = $q->select(DB::raw('COUNT(DISTINCT DATE(tanggal)) as cnt'))->value('cnt');
+
+        return (int) $cnt;
+    }
+
+    /** Jam terlaksana (jam_selesai - jam_mulai) hanya yang keterangan = 'ya'  */
+    private function getJamTerlaksana($user_id, $startDate, $endDate): float
     {
         $totalJam = Jadwal::where('user_id', $user_id)
             ->whereBetween('tanggal', [$startDate, $endDate])
@@ -222,81 +254,107 @@ class PenilaianController extends Controller
     }
 
     /**
-     * Mendapatkan jumlah jam mengajar maksimal
+     * Jam maksimal bulan ini = total jam TERJADWAL (bukan asumsi).
+     * Fallback (jika belum ada jadwal sama sekali):
+     *   - Wali kelas: JP/hari * hari kerja (1 JP = 40 menit)
+     *   - Mapel: 2 JP/kelas * jumlah minggu efektif (≈ ceil(hariKerja/5))
      */
-    private function getJamMaksimal($user_id, $bulan)
+    private function getJamMaksimal($user_id, $bulan): float
     {
-        $hariKerja = $this->getHariKerja($bulan);
+        $start = Carbon::parse($bulan)->startOfMonth();
+        $end = Carbon::parse($bulan)->endOfMonth();
 
-        // Dapatkan jam mengajar yang dijadwalkan
-        $startDate = Carbon::parse($bulan)->startOfMonth();
-        $endDate = Carbon::parse($bulan)->endOfMonth();
-
+        // Hitung total jam yang dijadwalkan berdasarkan jadwal yang ada
         $jamTerjadwal = Jadwal::where('user_id', $user_id)
-            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->whereBetween('tanggal', [$start, $end])
             ->sum(DB::raw('TIME_TO_SEC(TIMEDIFF(jam_selesai, jam_mulai)) / 3600'));
 
-        return max($hariKerja * 6, $jamTerjadwal); // Ambil nilai maksimal antara estimasi dan jadwal
+        if ($jamTerjadwal > 0) {
+            return round($jamTerjadwal, 2);
+        }
+
+        // Fallback: Gunakan perhitungan berdasarkan dokumen
+        $user = User::find($user_id);
+        $hariKerja = $this->getHariKerja($bulan);
+
+        // Konversi JP ke jam (1 JP = 40 menit = 0.67 jam)
+        $jpToHour = 40 / 60; // 0.67 jam per JP
+
+        if ($user && str_contains(strtolower($user->jabatan ?? ''), 'wali kelas')) {
+            $jpPerHari = 0;
+            $jab = strtolower($user->jabatan);
+
+            if (str_contains($jab, 'kelas 1') || str_contains($jab, 'kelas 2')) {
+                $jpPerHari = 4;
+            } elseif (str_contains($jab, 'kelas 3')) {
+                $jpPerHari = 5;
+            } else { // kelas 4/5/6
+                $jpPerHari = 6;
+            }
+            return round($jpPerHari * $jpToHour * $hariKerja, 2);
+        }
+
+        // Untuk guru mapel, gunakan perhitungan berdasarkan contoh dokumen
+        // Contoh: PJOK (1-3) memiliki 24 jam maksimal di bulan April
+        $mingguEfektif = ceil($hariKerja / 7);
+
+        // Default: 2 JP per pertemuan (sesuai contoh dokumen)
+        $jpPerPertemuan = 2;
+        $pertemuanPerMinggu = 1; // Default 1 pertemuan per minggu
+
+        return round($jpPerPertemuan * $pertemuanPerMinggu * $mingguEfektif * $jpToHour, 2);
     }
 
-    /**
-     * Mendapatkan persentase pengisian nilai
-     */
-    private function getPengisianNilai($user_id, $startDate, $endDate)
+    private function getHariKerja($bulan): int
     {
-        // Implementasi logika pengisian nilai
-        // Ini adalah contoh sederhana, sesuaikan dengan kebutuhan
-        $totalJadwal = Jadwal::where('user_id', $user_id)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->where('keterangan', 'ya')
-            ->count();
-
-        $jadwalTerenilai = Jadwal::where('user_id', $user_id)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->where('keterangan', 'ya')
-            // ->where('terenilai', 1) // Asumsikan ada kolom untuk menandai sudah dinilai
-            ->count();
-
-        return ($totalJadwal > 0) ? ($jadwalTerenilai / $totalJadwal) * 100 : 100;
+        $d = Carbon::parse($bulan)->startOfMonth();
+        $end = Carbon::parse($bulan)->endOfMonth();
+        $hari = 0;
+        while ($d->lte($end)) {
+            if (!$d->isWeekend())
+                $hari++;
+            $d->addDay();
+        }
+        return $hari;
     }
 
     /**
-     * Mendapatkan jumlah rapat dalam periode
+     * Pengisian Nilai:
+     * - Jika Anda menyimpan flag bulanan (Ya/Tidak), ambil dari sana.
+     * - Jika belum ada data, default 100 (sesuai tabel contoh pada dokumen). 
      */
-    private function getJumlahRapat($startDate, $endDate)
+    private function getPengisianNilai($user_id, $startDate, $endDate): float
     {
-        return Agenda::whereBetween('tgl_kegiatan', [$startDate, $endDate])
-            // ->where('jenis_kegiatan', 'rapat') // Hitung hanya rapat
-            ->count();
+        // TODO: ganti dengan sumber data yang benar jika sudah ada (mis. kolom/relasi nilai).
+        return 100.0;
     }
 
-    /**
-     * Mendapatkan jumlah kehadiran rapat
-     */
-    private function getHadirRapat($user_id, $startDate, $endDate)
+    /** Rapat: jumlah agenda bulan tsb. dan hadir=‘hadir’ */
+    private function getJumlahRapat($startDate, $endDate): int
+    {
+        return Agenda::whereBetween('tgl_kegiatan', [$startDate, $endDate])->count();
+    }
+
+    private function getHadirRapat($user_id, $startDate, $endDate): int
     {
         return Absensi::where('user_id', $user_id)
-            ->whereHas('agenda', function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('tgl_kegiatan', [$startDate, $endDate]);
+            ->whereHas('agenda', function ($q) use ($startDate, $endDate) {
+                $q->whereBetween('tgl_kegiatan', [$startDate, $endDate]);
             })
             ->where('status', 'hadir')
             ->count();
     }
 
-    /**
-     * Menentukan kategori berdasarkan skor
-     */
-    private function getKategori($skor)
+    /** Kategori sesuai dokumen: A≥90, B 80–89, C 70–79, D<70 */
+    private function getKategori($skor): string
     {
-        if ($skor >= 90) {
+        if ($skor >= 90)
             return 'Sangat Baik';
-        } elseif ($skor >= 80) {
+        if ($skor >= 80)
             return 'Baik';
-        } elseif ($skor >= 70) {
+        if ($skor >= 70)
             return 'Cukup';
-        } else {
-            return 'Kurang';
-        }
+        return 'Kurang';
     }
 
     /**

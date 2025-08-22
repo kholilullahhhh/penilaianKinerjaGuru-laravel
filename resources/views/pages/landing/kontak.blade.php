@@ -1,6 +1,7 @@
 @extends('layouts.landing.app')
 @section('content')
-    <div id="banner-area" class="banner-area" style="background-image:url({{ asset('landing/images/banner/banner1.jpg')}})">
+    <div id="banner-area" class="banner-area"
+        style="background-image:url({{ asset('landing/images/slider-main/bonto1.jpeg')}})">
         <div class="banner-text">
             <div class="container">
                 <div class="row">
@@ -39,7 +40,7 @@
                         </span>
                         <div class="ts-service-box-content">
                             <h4>Kunjungi Sekolah Kami</h4>
-                            <p> Jl. Langsat No 18 B Turikale Kab Maros 90511, Turikale, Maros Regency, South Sulawesi 90511
+                            <p> RC3Q+2M7, Taeng, Pallangga, Gowa Regency, South Sulawesi 90221
                             </p>
                         </div>
                     </div>
@@ -75,7 +76,7 @@
 
             <div class="google-map">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3974.6026888455353!2d119.57711507498125!3d-5.005462094970952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbef86aabd5f0e5%3A0x73f63e3ca005fb93!2sSMK%20Tridarma%20Maros!5e0!3m2!1sid!2sid!4v1750481016500!5m2!1sid!2sid"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.4138013351717!2d119.43660337315202!3d-5.197466952405548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbee21448458805%3A0xd120be2abbbb1c44!2sSd%20Inpres%20Bontoala%20I!5e0!3m2!1sen!2sid!4v1755832598831!5m2!1sen!2sid"
                     width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>

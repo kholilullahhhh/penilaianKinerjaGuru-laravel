@@ -22,6 +22,8 @@ class MapelSeeder extends Seeder
             ['nama' => 'Matematika', 'kelompok_kelas' => '1-2'],
             ['nama' => 'Mulok', 'kelompok_kelas' => '1-2'],
             ['nama' => 'SBDP', 'kelompok_kelas' => '1-2'],
+            ['nama' => 'PJOK', 'kelompok_kelas' => '1-3'],
+            ['nama' => 'PAI', 'kelompok_kelas' => '1-6'],
 
             // Kelas 3-6
             ['nama' => 'Gowa Angngaji', 'kelompok_kelas' => '3-6'],
@@ -32,6 +34,7 @@ class MapelSeeder extends Seeder
             ['nama' => 'Mulok', 'kelompok_kelas' => '3-6'],
             ['nama' => 'SBDP', 'kelompok_kelas' => '3-6'],
             ['nama' => 'IPAS', 'kelompok_kelas' => '3-6'],
+            ['nama' => 'PJOK', 'kelompok_kelas' => '3-6'],
         ];
 
         DB::table('mapels')->insert($mapels);

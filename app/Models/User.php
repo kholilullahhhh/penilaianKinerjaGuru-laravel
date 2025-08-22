@@ -22,6 +22,7 @@ class User extends Authenticatable
         'nuptk',
         'username',
         'password',
+        'jabatan',
         'role'
     ];
 

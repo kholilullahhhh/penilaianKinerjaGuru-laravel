@@ -75,7 +75,7 @@
                 </li>
                 <li class="{{ $menu == 'jadwal' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('user.jadwal.index') }}">
-                        <i class="fas fa-wallet"></i> <span>Data Jadwal Mengajar</span>
+                        <i class="fas fa-wallet"></i> <span>Data Input Nilai</span>
                     </a>
                 </li>
                 <li class="menu-header">Landing Page</li>
