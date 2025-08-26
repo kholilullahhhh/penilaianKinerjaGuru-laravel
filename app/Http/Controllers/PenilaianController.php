@@ -108,7 +108,13 @@ class PenilaianController extends Controller
 
         // 1) Kehadiran Mengajar (%)
         $jumlahHadir = $this->getJumlahHadirHari($user_id, $startDate, $endDate);
-        $kehadiranMengajar = ($targetHari > 0) ? ($jumlahHadir / $targetHari) * 100 : 0;
+        $jumlahTidakHadir = $this->getJumlahTidakHadirHari($user_id, $startDate, $endDate);
+
+        $totalHari = $jumlahHadir + $jumlahTidakHadir;
+
+        $kehadiranMengajar = ($totalHari > 0)
+            ? ($jumlahHadir / $totalHari) * 100
+            : 0;
 
         // 2) Ketepatan Waktu (%)
         $tepatWaktuHari = $this->getJumlahTepatWaktuHari($user_id, $startDate, $endDate);
@@ -209,10 +215,28 @@ class PenilaianController extends Controller
                     ->orWhere('keterangan', '1')
                     ->orWhere('keterangan', true);
             })
+
+
             ->select(DB::raw('COUNT(DISTINCT DATE(tanggal)) as cnt'))
             ->value('cnt');
 
         return (int) $cnt;
+    }
+
+    private function getJumlahTidakHadirHari($user_id, $startDate, $endDate): int
+    {
+        $start = Carbon::parse($startDate)->startOfDay();
+        $end = Carbon::parse($endDate)->endOfDay();
+
+        return DB::table('jadwals')
+            ->where('user_id', $user_id)
+            ->whereBetween('tanggal', [$start, $end])
+            ->where(function ($q) {
+                $q->whereRaw("LOWER(COALESCE(keterangan, '')) IN ('tidak','t','no','0')")
+                    ->orWhere('keterangan', false);
+            })
+            ->select(DB::raw('COUNT(DISTINCT DATE(tanggal)) as cnt'))
+            ->value('cnt') ?? 0;
     }
     // Jumlah HARI tepat waktu (fallback: sama dengan hadir jika kolom 'terlambat' tidak ada)
     private function getJumlahTepatWaktuHari($user_id, $startDate, $endDate): int
