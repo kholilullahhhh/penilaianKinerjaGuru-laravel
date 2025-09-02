@@ -25,8 +25,7 @@
                     <div class="working-hours">
                         <ul class="list-arrow">
                             <li>
-                                Jl. Langsat No 18 B Turikale Kab Maros 90511, Turikale, Maros Regency, South Sulawesi
-                                90511
+                                RC3Q+2M7, Taeng, Pallangga, Gowa Regency, South Sulawesi 90221
                             </li>
                             <li>08898988988 </li>
                             <li>sdibontoala1@gmail.com </li>
