@@ -66,6 +66,7 @@
                                                 <th>Bulan</th>
                                                 <th>Skor Akhir</th>
                                                 <th>Kategori</th>
+                                                <th>Keterangan</th>
                                                 <th>Tanggal Penilaian</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -90,6 +91,24 @@
                                                                 @break
                                                             @case('Kurang')
                                                                 <span class="badge badge-danger">Kurang</span>
+                                                                @break
+                                                            @default
+                                                                <span class="badge badge-secondary">{{ $penilaian->kategori }}</span>
+                                                        @endswitch
+                                                    </td>
+                                                    <td>
+                                                        @switch($penilaian->kategori)
+                                                            @case('Sangat Baik')
+                                                                <span class="badge badge-success">A</span>
+                                                                @break
+                                                            @case('Baik')
+                                                                <span class="badge badge-primary">B</span>
+                                                                @break
+                                                            @case('Cukup')
+                                                                <span class="badge badge-warning">C</span>
+                                                                @break
+                                                            @case('Kurang')
+                                                                <span class="badge badge-danger">D</span>
                                                                 @break
                                                             @default
                                                                 <span class="badge badge-secondary">{{ $penilaian->kategori }}</span>

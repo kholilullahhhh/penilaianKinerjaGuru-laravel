@@ -204,7 +204,7 @@ Route::group(
                 Route::post('/hapus/{id}', 'JadwalController@destroy')->name('jadwal.hapus');
 
 
-
+ 
             });
 
             Route::prefix('jdwl')->group(function () {
